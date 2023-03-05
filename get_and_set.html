@@ -24,18 +24,21 @@
 
         // $simcir - графическая область экрана - область схемы
         // $() - операция получает ссылку на эту область:
-        // $simcir = $("#mySimcir") = jQuery.fn.init [div#mySimcir]
         // Элемент SVG области это: <div id="mySimcir"><div class="simcir-body"><svg version="1.1" width="600" height="200"
+        // $simcir = $("#mySimcir") = jQuery.fn.init [div#mySimcir] - инициализация работы с JQuery в этой области экрана
         var $simcir = $("#mySimcir");
 
         // функция вызывается из $("#getDataBtn").click(function () {...} - клик по кнопке 'v get data v'
         var getCircuitData = function () {
           // получение данных по кнопке 'v get data v'
-          var $return = $s.controller($simcir.find(".simcir-workspace")).text();
+          // попадаю в файл JQuery в строку 3583 на функцию find:
+          var $simcir_workspace = $simcir.find(".simcir-workspace");
+
+          var $return = $s.controller($simcir_workspace).text();
           return $return;
         };
         var setCircuitData = function (data) {
-          // Загрузка вызов функции setupSimcir() в файле sincir.js
+          // Загрузка, вызов функции setupSimcir() в файле sincir.js
           //console.log(data);
           // JSON (JavaScript Object Notation) – это общий формат для представления значений и объектов.
           // JavaScript предоставляет методы:
@@ -47,6 +50,7 @@
         };
 
         // button click events
+        // запускаем инициализацию события по нажатия кнопки, где будет отрабатывать эта функция
         $("#getDataBtn").click(function () {
           // получение данных по кнопке 'v get data v'
 

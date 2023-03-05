@@ -100,6 +100,7 @@
       // Объект jQuery на самом деле является просто конструктором инициализации "enhanced"
       // Need init if jQuery is called (just allow error to be thrown if not included)
       // Требуется инициализация при вызове jQuery (просто разрешите выдавать ошибку, если она не включена)
+      // попадаем сюда при вызове -> $("#????????").click(function () {
       return new jQuery.fn.init(selector, context);
     },
     // Support: Android <=4.0 only
@@ -5495,6 +5496,7 @@
       initialInUnit = +initialInUnit || +initial || 0;
 
       // Apply relative offset (+=/-=) if specified
+      // Применить относительное смещение (+=/-=), если указано
       adjusted = valueParts[1]
         ? initialInUnit + (valueParts[1] + 1) * valueParts[2]
         : +valueParts[2];
@@ -6644,6 +6646,7 @@
       var handleObj, type;
       if (types && types.preventDefault && types.handleObj) {
         // ( event )  dispatched jQuery.Event
+        // ( событие ) отправил jQuery.Событие
         handleObj = types.handleObj;
         jQuery(types.delegateTarget).off(
           handleObj.namespace
@@ -6656,6 +6659,7 @@
       }
       if (typeof types === "object") {
         // ( types-object [, selector] )
+        // ( типы-объект [, селектор] )
         for (type in types) {
           this.off(type, selector, types[type]);
         }
@@ -6663,6 +6667,7 @@
       }
       if (selector === false || typeof selector === "function") {
         // ( types [, fn] )
+        // ( типы [, fn] )
         fn = selector;
         selector = undefined;
       }
@@ -6675,7 +6680,7 @@
     },
   });
 
-  var /* eslint-disable max-len */
+  var /* eslint-disable max-len */ /* eslint - отключить максимальное значение */
 
     // See https://github.com/eslint/eslint/issues/3229
     rxhtmlTag =
@@ -7869,6 +7874,7 @@
           var i = 0,
             expanded = {},
             // Assumes a single number if not a string
+            // Предполагает одно число, если не строку
             parts = typeof value === "string" ? value.split(" ") : [value];
 
           for (; i < 4; i++) {
@@ -7979,7 +7985,9 @@
         var result;
 
         // Use a property on the element directly when it is not a DOM element,
+        // Используйте свойство элемента напрямую, когда он не является элементом DOM
         // or when there is no matching style property that exists.
+        // или когда не существует соответствующего свойства стиля.
         if (
           tween.elem.nodeType !== 1 ||
           (tween.elem[tween.prop] != null &&
@@ -7989,18 +7997,26 @@
         }
 
         // Passing an empty string as a 3rd parameter to .css will automatically
+        // Передача пустой строки в качестве 3-го параметра в .css автоматически
         // attempt a parseFloat and fallback to a string if the parse fails.
+        // попытается выполнить parseFloat и вернуться к строке, если синтаксический анализ завершится неудачей.
         // Simple values such as "10px" are parsed to Float;
+        // Простые значения, такие как "10px", преобразуются в значение Float;
         // complex values such as "rotate(1rad)" are returned as-is.
+        // сложные значения, такие как "rotate(1rad)", возвращаются как есть.
         result = jQuery.css(tween.elem, tween.prop, "");
 
         // Empty strings, null, undefined and "auto" are converted to 0.
+        // Пустые строки, null, undefined и "auto" преобразуются в 0.
         return !result || result === "auto" ? 0 : result;
       },
       set: function (tween) {
         // Use step hook for back compat.
+        // Используйте шаговый крючок для обратной совместимости.
         // Use cssHook if its there.
+        // Используйте cssHook, если он там есть.
         // Use .style if available and use plain properties where available.
+        // Используйте .style, если доступно, и используйте простые свойства, где это возможно.
         if (jQuery.fx.step[tween.prop]) {
           jQuery.fx.step[tween.prop](tween);
         } else if (
@@ -8017,7 +8033,9 @@
   };
 
   // Support: IE <=9 only
+  // Поддержка: только IE <=9
   // Panic based approach to setting things on disconnected nodes
+  // Основанный на панике подход к настройке параметров на отключенных узлах
   Tween.propHooks.scrollTop = Tween.propHooks.scrollLeft = {
     set: function (tween) {
       if (tween.elem.nodeType && tween.elem.parentNode) {
@@ -8059,6 +8077,7 @@
   }
 
   // Animations created synchronously will run synchronously
+  // Анимации, созданные синхронно, будут выполняться синхронно
   function createFxNow() {
     window.setTimeout(function () {
       fxNow = undefined;
@@ -8067,13 +8086,16 @@
   }
 
   // Generate parameters to create a standard animation
+  // Сгенерировать параметры для создания стандартной анимации
   function genFx(type, includeWidth) {
     var which,
       i = 0,
       attrs = { height: type };
 
     // If we include width, step value is 1 to do all cssExpand values,
+    // Если мы включаем ширину, значение шага равно 1 для выполнения всех значений cssExpand,
     // otherwise step value is 2 to skip over Left and Right
+    // в противном случае значение шага равно 2 для перехода влево и вправо
     includeWidth = includeWidth ? 1 : 0;
     for (; i < 4; i += 2 - includeWidth) {
       which = cssExpand[i];
@@ -8097,6 +8119,7 @@
     for (; index < length; index++) {
       if ((tween = collection[index].call(animation, prop, value))) {
         // We're done with this property
+        // Мы закончили с этим свойством
         return tween;
       }
     }
@@ -8119,6 +8142,7 @@
       dataShow = dataPriv.get(elem, "fxshow");
 
     // Queue-skipping animations hijack the fx hooks
+    // Анимация с пропуском очереди захватывает fx-хуки
     if (!opts.queue) {
       hooks = jQuery._queueHooks(elem, "fx");
       if (hooks.unqueued == null) {
@@ -8134,6 +8158,7 @@
 
       anim.always(function () {
         // Ensure the complete handler is called before this completes
+        // Убедитесь, что полный обработчик вызван до завершения этого
         anim.always(function () {
           hooks.unqueued--;
           if (!jQuery.queue(elem, "fx").length) {
@@ -8144,6 +8169,7 @@
     }
 
     // Detect show/hide animations
+    // Обнаружение показывать/скрывать анимации
     for (prop in props) {
       value = props[prop];
       if (rfxtypes.test(value)) {
@@ -8151,11 +8177,14 @@
         toggle = toggle || value === "toggle";
         if (value === (hidden ? "hide" : "show")) {
           // Pretend to be hidden if this is a "show" and
+          // Притвориться скрытым, если это "шоу" и
           // there is still data from a stopped show/hide
+          // все еще есть данные из остановленного показа / скрыть
           if (value === "show" && dataShow && dataShow[prop] !== undefined) {
             hidden = true;
 
             // Ignore all other no-op show/hide data
+            // Игнорировать все остальные данные, не отображаемые/скрываемые без операции
           } else {
             continue;
           }
@@ -8165,19 +8194,25 @@
     }
 
     // Bail out if this is a no-op like .hide().hide()
+    // Выручайте, если это неоперативно, например .hide().hide()
     propTween = !jQuery.isEmptyObject(props);
     if (!propTween && jQuery.isEmptyObject(orig)) {
       return;
     }
 
     // Restrict "overflow" and "display" styles during box animations
+    // Ограничить стили "переполнение" и "отображение" во время анимации бокса
     if (isBox && elem.nodeType === 1) {
       // Support: IE <=9 - 11, Edge 12 - 13
+      // Поддержка: IE <=9 - 11, Edge 12 - 13
       // Record all 3 overflow attributes because IE does not infer the shorthand
+      // Запишите все 3 атрибута переполнения, потому что IE не выводит сокращение
       // from identically-valued overflowX and overflowY
+      // из идентичных значений overflowX и overflowY
       opts.overflow = [style.overflow, style.overflowX, style.overflowY];
 
       // Identify a display type, preferring old show/hide data over the CSS cascade
+      // Определите тип отображения, предпочитая старое отображение /скрытие данных каскаду CSS
       restoreDisplay = dataShow && dataShow.display;
       if (restoreDisplay == null) {
         restoreDisplay = dataPriv.get(elem, "display");
@@ -8188,6 +8223,7 @@
           display = restoreDisplay;
         } else {
           // Get nonempty value(s) by temporarily forcing visibility
+          // Получить непустое значение (значения), временно принудительно изменив видимость
           showHide([elem], true);
           restoreDisplay = elem.style.display || restoreDisplay;
           display = jQuery.css(elem, "display");
@@ -8196,12 +8232,14 @@
       }
 
       // Animate inline elements as inline-block
+      // Анимировать встроенные элементы как встроенный блок
       if (
         display === "inline" ||
         (display === "inline-block" && restoreDisplay != null)
       ) {
         if (jQuery.css(elem, "float") === "none") {
           // Restore the original display value at the end of pure show/hide animations
+          // Восстановите исходное отображаемое значение в конце чистого показа/скрытия анимации
           if (!propTween) {
             anim.done(function () {
               style.display = restoreDisplay;
@@ -8226,9 +8264,11 @@
     }
 
     // Implement show/hide animations
+    // Реализовать отображение/скрытие анимации
     propTween = false;
     for (prop in orig) {
       // General show/hide setup for this element animation
+      // Общие настройки отображения/скрытия для анимации этого элемента
       if (!propTween) {
         if (dataShow) {
           if ("hidden" in dataShow) {
@@ -8241,21 +8281,26 @@
         }
 
         // Store hidden/visible for toggle so `.stop().toggle()` "reverses"
+        // Сохранить скрытым / видимым для переключения, так что `.stop().toggle()` "переворачивается"
         if (toggle) {
           dataShow.hidden = !hidden;
         }
 
         // Show elements before animating them
+        // Показывать элементы перед их анимацией
         if (hidden) {
           showHide([elem], true);
         }
 
         /* eslint-disable no-loop-func */
+        /* eslint- отключить функцию no-loop-func */
 
         anim.done(function () {
           /* eslint-enable no-loop-func */
+          /* eslint- включить функцию без цикла */
 
           // The final step of a "hide" animation is actually hiding the element
+          // Заключительный шаг анимации "скрыть" на самом деле скрывает элемент
           if (!hidden) {
             showHide([elem]);
           }
@@ -8267,6 +8312,7 @@
       }
 
       // Per-property setup
+      // Настройка для каждого свойства
       propTween = createTween(hidden ? dataShow[prop] : 0, prop, anim);
       if (!(prop in dataShow)) {
         dataShow[prop] = propTween.start;
@@ -8282,6 +8328,7 @@
     var index, name, easing, value, hooks;
 
     // camelCase, specialEasing and expand cssHook pass
+    // camelCase, specialEasing и разверните csshooks проходят
     for (index in props) {
       name = jQuery.camelCase(index);
       easing = specialEasing[name];
@@ -8302,7 +8349,9 @@
         delete props[name];
 
         // Not quite $.extend, this won't overwrite existing keys.
+        // Не совсем $.extend, это не приведет к перезаписи существующих ключей.
         // Reusing 'index' because we have the correct "name"
+        // Повторно используем 'index', потому что у нас есть правильное "имя"
         for (index in value) {
           if (!(index in props)) {
             props[index] = value[index];
@@ -8322,6 +8371,7 @@
       length = Animation.prefilters.length,
       deferred = jQuery.Deferred().always(function () {
         // Don't match elem in the :animated selector
+        // Не соответствует элементу в :анимированном селекторе
         delete tick.elem;
       }),
       tick = function () {
@@ -8334,7 +8384,9 @@
             animation.startTime + animation.duration - currentTime
           ),
           // Support: Android 2.3 only
+          // Поддержка: только Android 2.3
           // Archaic crash bug won't allow us to use `1 - ( 0.5 || 0 )` (#12497)
+          // Архаичная ошибка сбоя не позволит нам использовать `1 - ( 0.5 || 0 )` (#12497)
           temp = remaining / animation.duration || 0,
           percent = 1 - temp,
           index = 0,
@@ -8347,16 +8399,19 @@
         deferred.notifyWith(elem, [animation, percent, remaining]);
 
         // If there's more to do, yield
+        // Если есть что еще сделать, уступите
         if (percent < 1 && length) {
           return remaining;
         }
 
         // If this was an empty animation, synthesize a final progress notification
+        // Если это была пустая анимация, синтезируйте окончательное уведомление о ходе выполнения
         if (!length) {
           deferred.notifyWith(elem, [animation, 1, 0]);
         }
 
         // Resolve the animation and report its conclusion
+        // Разрешите анимацию и сообщите о ее завершении
         deferred.resolveWith(elem, [animation]);
         return false;
       },
@@ -8390,7 +8445,9 @@
         stop: function (gotoEnd) {
           var index = 0,
             // If we are going to the end, we want to run all the tweens
+            // Если мы собираемся дойти до конца, мы хотим запустить всех подростков,
             // otherwise we skip this part
+            // в противном случае мы пропускаем эту часть
             length = gotoEnd ? animation.tweens.length : 0;
           if (stopped) {
             return this;
@@ -8401,6 +8458,7 @@
           }
 
           // Resolve when we played the last frame; otherwise, reject
+          // Разрешить, когда мы воспроизвели последний кадр; в противном случае отклонить
           if (gotoEnd) {
             deferred.notifyWith(elem, [animation, 1, 0]);
             deferred.resolveWith(elem, [animation, gotoEnd]);
@@ -8437,6 +8495,7 @@
     }
 
     // Attach callbacks from options
+    // Прикреплять обратные вызовы из опций
     animation
       .progress(animation.opts.progress)
       .done(animation.opts.done, animation.opts.complete)
@@ -8509,6 +8568,7 @@
           };
 
     // Go to the end state if fx are off
+    // Перейти в конечное состояние, если fx выключен
     if (jQuery.fx.off) {
       opt.duration = 0;
     } else {
@@ -8522,11 +8582,13 @@
     }
 
     // Normalize opt.queue - true/undefined/null -> "fx"
+    // Нормализовать opt.queue - true/undefined/null -> "fx"
     if (opt.queue == null || opt.queue === true) {
       opt.queue = "fx";
     }
 
     // Queueing
+    // Постановка в очередь
     opt.old = opt.complete;
 
     opt.complete = function () {
@@ -8545,12 +8607,14 @@
   jQuery.fn.extend({
     fadeTo: function (speed, to, easing, callback) {
       // Show any hidden elements after setting opacity to 0
+      // Показывать любые скрытые элементы после установки непрозрачности в 0
       return (
         this.filter(isHiddenWithinTree)
           .css("opacity", 0)
           .show()
 
           // Animate to the value specified
+          // Анимировать до указанного значения
           .end()
           .animate({ opacity: to }, speed, easing, callback)
       );
@@ -8560,9 +8624,11 @@
         optall = jQuery.speed(speed, easing, callback),
         doAnimation = function () {
           // Operate on a copy of prop so per-property easing won't be lost
+          // Работайте с копией prop, чтобы не было потеряно упрощение для каждого свойства
           var anim = Animation(this, jQuery.extend({}, prop), optall);
 
           // Empty animations, or finishing resolves immediately
+          // Пустые анимации, или завершение разрешается немедленно
           if (empty || dataPriv.get(this, "finish")) {
             anim.stop(true);
           }
@@ -8619,8 +8685,11 @@
         }
 
         // Start the next in the queue if the last step wasn't forced.
+        // Запустите следующий в очереди, если последний шаг не был принудительным.
         // Timers currently will call their complete callbacks, which
+        // Таймеры в настоящее время будут вызывать свои полные обратные вызовы, которые
         // will dequeue but only if they were gotoEnd.
+        // будут выведены из очереди, но только в том случае, если они были gotoEnd.
         if (dequeue || !gotoEnd) {
           jQuery.dequeue(this, type);
         }
@@ -8639,9 +8708,11 @@
           length = queue ? queue.length : 0;
 
         // Enable finishing flag on private data
+        // Включить флаг завершения для личных данных
         data.finish = true;
 
         // Empty the queue first
+        // Сначала очистите очередь
         jQuery.queue(this, type, []);
 
         if (hooks && hooks.stop) {
@@ -8649,6 +8720,7 @@
         }
 
         // Look for any active animations, and finish them
+        // Найдите любые активные анимации и завершите их
         for (index = timers.length; index--; ) {
           if (timers[index].elem === this && timers[index].queue === type) {
             timers[index].anim.stop(true);
@@ -8657,6 +8729,7 @@
         }
 
         // Look for any animations in the old queue and finish them
+        // Найдите любые анимации в старой очереди и завершите их
         for (index = 0; index < length; index++) {
           if (queue[index] && queue[index].finish) {
             queue[index].finish.call(this);
@@ -8664,6 +8737,7 @@
         }
 
         // Turn off finishing flag
+        // Отключить флаг завершения
         delete data.finish;
       });
     },
@@ -8679,6 +8753,7 @@
   });
 
   // Generate shortcuts for custom animations
+  // Создание ярлыков для пользовательских анимаций
   jQuery.each(
     {
       slideDown: genFx("show"),
@@ -8707,6 +8782,7 @@
       timer = timers[i];
 
       // Run the timer and safely remove it when done (allowing for external removal)
+      // Запустите таймер и безопасно извлеките его по завершении (с возможностью внешнего удаления)
       if (!timer() && timers[i] === timer) {
         timers.splice(i--, 1);
       }
@@ -8746,6 +8822,7 @@
   };
 
   // Based off of the plugin by Clint Helfers, with permission.
+  // Основано на плагине Клинта Хелферса, с разрешения автора.
   // https://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
   jQuery.fn.delay = function (time, type) {
     time = jQuery.fx ? jQuery.fx.speeds[time] || time : time;
@@ -8767,15 +8844,21 @@
     input.type = "checkbox";
 
     // Support: Android <=4.3 only
+    // Поддержка: только Android <=4.3
     // Default value for a checkbox should be "on"
+    // Значение по умолчанию для флажка должно быть "включено"
     support.checkOn = input.value !== "";
 
     // Support: IE <=11 only
+    // Поддержка: только IE <=11
     // Must access selectedIndex to make default options select
+    // Необходимо получить доступ к SelectedIndex, чтобы выбрать параметры по умолчанию
     support.optSelected = opt.selected;
 
     // Support: IE <=11 only
+    // Поддержка: только IE <=11
     // An input loses its value after becoming a radio
+    // Входной сигнал теряет свое значение после того, как становится радио
     input = document.createElement("input");
     input.value = "t";
     input.type = "radio";
@@ -8804,17 +8887,21 @@
         nType = elem.nodeType;
 
       // Don't get/set attributes on text, comment and attribute nodes
+      // Не получать/устанавливать атрибуты для текстовых узлов, комментариев и атрибутов
       if (nType === 3 || nType === 8 || nType === 2) {
         return;
       }
 
       // Fallback to prop when attributes are not supported
+      // Запасной вариант для prop, когда атрибуты не поддерживаются
       if (typeof elem.getAttribute === "undefined") {
         return jQuery.prop(elem, name, value);
       }
 
       // Attribute hooks are determined by the lowercase version
+      // Хуки атрибутов определяются строчной версией,
       // Grab necessary hook if one is defined
+      // необходимой для захвата хука, если таковой определен
       if (nType !== 1 || !jQuery.isXMLDoc(elem)) {
         hooks =
           jQuery.attrHooks[name.toLowerCase()] ||
@@ -8846,6 +8933,7 @@
       ret = jQuery.find.attr(elem, name);
 
       // Non-existent attributes return null, we normalize to undefined
+      // Несуществующие атрибуты возвращают значение null, мы нормализуем до неопределенного
       return ret == null ? undefined : ret;
     },
 
@@ -8872,6 +8960,7 @@
       var name,
         i = 0,
         // Attribute names can contain non-HTML whitespace characters
+        // Имена атрибутов могут содержать пробелы, отличные от HTML
         // https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
         attrNames = value && value.match(rnothtmlwhite);
 
@@ -8884,10 +8973,12 @@
   });
 
   // Hooks for boolean attributes
+  // Крючки для логических атрибутов
   boolHook = {
     set: function (elem, value, name) {
       if (value === false) {
         // Remove boolean attributes when set to false
+        // Удалить логические атрибуты, если установлено значение false
         jQuery.removeAttr(elem, name);
       } else {
         elem.setAttribute(name, name);
@@ -8906,6 +8997,7 @@
 
       if (!isXML) {
         // Avoid an infinite loop by temporarily removing this function from the getter
+        // Избегайте бесконечного цикла, временно удалив эту функцию из средства получения
         handle = attrHandle[lowercaseName];
         attrHandle[lowercaseName] = ret;
         ret = getter(elem, name, isXML) != null ? lowercaseName : null;
@@ -8937,6 +9029,7 @@
         nType = elem.nodeType;
 
       // Don't get/set properties on text, comment and attribute nodes
+      // Не получать/устанавливать свойства для узлов текста, комментариев и атрибутов
       if (nType === 3 || nType === 8 || nType === 2) {
         return;
       }
@@ -8970,8 +9063,11 @@
       tabIndex: {
         get: function (elem) {
           // Support: IE <=9 - 11 only
+          // Поддержка: только IE <=9 - 11
           // elem.tabIndex doesn't always return the
+          // elem.tabIndex не всегда возвращает
           // correct value when it hasn't been explicitly set
+          // правильное значение, если оно не было задано явно
           // https://web.archive.org/web/20141116233347/http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
           // Use proper attribute retrieval(#12072)
           var tabindex = jQuery.find.attr(elem, "tabindex");
@@ -8999,18 +9095,26 @@
   });
 
   // Support: IE <=11 only
+  // Поддержка: только IE <=11
   // Accessing the selectedIndex property
+  // Доступ к свойству SelectedIndex
   // forces the browser to respect setting selected
+  // заставляет браузер соблюдать настройки,
   // on the option
+  // выбранные в опции
   // The getter ensures a default option is selected
+  // Средство получения гарантирует, что в optgroup
   // when in an optgroup
+  // выбран параметр по умолчанию
   // eslint rule "no-unused-expressions" is disabled for this code
+  // правило eslint "нет неиспользуемых выражений" отключено для этого кода,
   // since it considers such accessions noop
+  // поскольку он считает такое присоединение шпионским
   if (!support.optSelected) {
     jQuery.propHooks.selected = {
       get: function (elem) {
         /* eslint no-unused-expressions: "off" */
-
+        /* eslint нет неиспользуемых выражений: "выкл." */
         var parent = elem.parentNode;
         if (parent && parent.parentNode) {
           parent.parentNode.selectedIndex;
@@ -9019,7 +9123,7 @@
       },
       set: function (elem) {
         /* eslint no-unused-expressions: "off" */
-
+        /* eslint нет неиспользуемых выражений: "выкл." */
         var parent = elem.parentNode;
         if (parent) {
           parent.selectedIndex;
@@ -9051,6 +9155,7 @@
   );
 
   // Strip and collapse whitespace according to HTML spec
+  // Удалите и сверните пробелы в соответствии со спецификацией HTML
   // https://html.spec.whatwg.org/multipage/infrastructure.html#strip-and-collapse-whitespace
   function stripAndCollapse(value) {
     var tokens = value.match(rnothtmlwhite) || [];
@@ -9093,7 +9198,7 @@
               }
             }
 
-            // Only assign if different to avoid unneeded rendering.
+            // Назначайте только в том случае, если отличается, чтобы избежать ненужного рендеринга.
             finalValue = stripAndCollapse(cur);
             if (curValue !== finalValue) {
               elem.setAttribute("class", finalValue);
@@ -9598,10 +9703,14 @@
     (
       "blur focus focusin focusout resize scroll click dblclick " +
       "mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-      "change select submit keydown keypress keyup contextmenu"
+      "change select submit keydown keypress keyup contextmenu" +
+      " размытие фокуса фокусировка в фокусе вне фокуса изменение размера прокрутка щелчок dblclick" +
+      " наведение курсора мыши наведение курсора мыши перемещение курсора мыши перемещение курсора мыши" +
+      " изменение выбора отправить нажатие клавиши вниз нажатие клавиши контекстное меню"
     ).split(" "),
     function (i, name) {
       // Handle event binding
+      // Обрабатывать привязку события
       jQuery.fn[name] = function (data, fn) {
         return arguments.length > 0
           ? this.on(name, null, data, fn)
