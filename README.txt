@@ -1,14 +1,8 @@
-SimcirJS
+Creating a table schema
 
-Copyright (c) 2014 Kazuhiko Arase
+Copyright (c) 2023 Andrey Antonov
 
-URL: http://www.d-project.com/
-
-Licensed under the MIT license:
-  http://www.opensource.org/licenses/mit-license.php
-
-
--- System Requirements
+URL: https://akvilona.github.io/JQuery321RU/
 
 Web browser that supports HTML5
 
@@ -32,11 +26,11 @@ git init
 git add README.md
 git commit -m "first commit"
 git branch -M main
-git remote add origin https://github.com/Akvilona/simcirjs-master.git
+git remote add origin https://github.com/Akvilona/JQuery321RU.git
 git push -u origin main
 
 …or push an existing repository from the command line
-git remote add origin https://github.com/Akvilona/simcirjs-master.git
+git remote add origin https://github.com/Akvilona/JQuery321RU.git
 git branch -M main
 git push -u origin main
 
