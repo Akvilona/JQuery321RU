@@ -9237,6 +9237,7 @@
           curValue = getClass(elem);
 
           // This expression is here for better compressibility (see addClass)
+          // Это выражение приведено здесь для лучшей сжимаемости (см. addClass)
           cur = elem.nodeType === 1 && " " + stripAndCollapse(curValue) + " ";
 
           if (cur) {
@@ -9249,6 +9250,7 @@
             }
 
             // Only assign if different to avoid unneeded rendering.
+            // Назначайте только в том случае, если отличается, чтобы избежать ненужного рендеринга.
             finalValue = stripAndCollapse(cur);
             if (curValue !== finalValue) {
               elem.setAttribute("class", finalValue);
@@ -9281,12 +9283,14 @@
 
         if (type === "string") {
           // Toggle individual class names
+          // Переключение имен отдельных классов
           i = 0;
           self = jQuery(this);
           classNames = value.match(rnothtmlwhite) || [];
 
           while ((className = classNames[i++])) {
             // Check each className given, space separated list
+            // Проверьте каждое указанное имя класса в списке, разделенном пробелами
             if (self.hasClass(className)) {
               self.removeClass(className);
             } else {
@@ -9295,17 +9299,23 @@
           }
 
           // Toggle whole class name
+          // Переключить полное имя класса
         } else if (value === undefined || type === "boolean") {
           className = getClass(this);
           if (className) {
             // Store className if set
+            // Сохранить имя класса, если задано
             dataPriv.set(this, "__className__", className);
           }
 
           // If the element has a class name or if we're passed `false`,
+          // Если у элемента есть имя класса или если нам передано `false`,
           // then remove the whole classname (if there was one, the above saved it).
+          // то удалите все имя класса (если оно было, вышеописанное сохранило его).
           // Otherwise bring back whatever was previously saved (if anything),
+          // В противном случае верните все, что было ранее сохранено (если что-либо было),
           // falling back to the empty string if nothing was stored.
+          // возвращаясь к пустой строке, если ничего не было сохранено.
           if (this.setAttribute) {
             this.setAttribute(
               "class",
@@ -9363,11 +9373,13 @@
           ret = elem.value;
 
           // Handle most common string cases
+          // Обрабатывать наиболее распространенные случаи использования строк
           if (typeof ret === "string") {
             return ret.replace(rreturn, "");
           }
 
           // Handle cases where value is null/undef or number
+          // Обрабатывать случаи, когда значение равно null/undef или number
           return ret == null ? "" : ret;
         }
 
@@ -9390,6 +9402,7 @@
         }
 
         // Treat null/undefined as ""; convert numbers to string
+        // Обрабатывать null/undefined как ""; преобразовывать числа в строку
         if (val == null) {
           val = "";
         } else if (typeof val === "number") {
@@ -9405,6 +9418,7 @@
           jQuery.valHooks[this.nodeName.toLowerCase()];
 
         // If set returns undefined, fall back to normal setting
+        // Если set возвращает значение undefined, вернитесь к обычному значению
         if (
           !hooks ||
           !("set" in hooks) ||
@@ -9424,8 +9438,11 @@
           return val != null
             ? val
             : // Support: IE <=10 - 11 only
+              // Поддержка: только IE <=10 - 11
               // option.text throws exceptions (#14686, #14858)
+              // option.text создает исключения (#14686, #14858)
               // Strip and collapse whitespace
+              // Удалить и свернуть пробелы
               // https://html.spec.whatwg.org/#strip-and-collapse-whitespace
               stripAndCollapse(jQuery.text(elem));
         },
@@ -9448,27 +9465,34 @@
           }
 
           // Loop through all the selected options
+          // Повторите цикл по всем выбранным параметрам
           for (; i < max; i++) {
             option = options[i];
 
             // Support: IE <=9 only
+            // Поддержка: только IE <=9
             // IE8-9 doesn't update selected after form reset (#2551)
+            // IE8-9 не обновляет выбранный после сброса формы (#2551)
             if (
               (option.selected || i === index) &&
               // Don't return options that are disabled or in a disabled optgroup
+              // Не возвращать параметры, которые отключены или находятся в отключенной группе опций
               !option.disabled &&
               (!option.parentNode.disabled ||
                 !nodeName(option.parentNode, "optgroup"))
             ) {
               // Get the specific value for the option
+              // Получить конкретное значение для параметра
               value = jQuery(option).val();
 
               // We don't need an array for one selects
+              // Нам не нужен массив для одного выбора
               if (one) {
                 return value;
               }
 
               // Multi-Selects return an array
+              // Множественный выбор возвращает массив
               values.push(value);
             }
           }
@@ -9487,6 +9511,7 @@
             option = options[i];
 
             /* eslint-disable no-cond-assign */
+            /* eslint-отключить no-cond-назначить */
 
             if (
               (option.selected =
@@ -9496,9 +9521,11 @@
             }
 
             /* eslint-enable no-cond-assign */
+            /* eslint-включить no-cond-назначить */
           }
 
           // Force browsers to behave consistently when non-matching value is set
+          // Заставить браузеры вести себя согласованно при установке несоответствующего значения
           if (!optionSet) {
             elem.selectedIndex = -1;
           }
@@ -9509,6 +9536,7 @@
   });
 
   // Radios and checkboxes getter/setter
+  // Приемник/установщик радиоприемников и флажков
   jQuery.each(["radio", "checkbox"], function () {
     jQuery.valHooks[this] = {
       set: function (elem, value) {
@@ -9526,7 +9554,7 @@
   });
 
   // Return jQuery for attributes-only inclusion
-
+  // Возвращает jQuery для включения только атрибутов
   var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
 
   jQuery.extend(jQuery.event, {
@@ -9547,17 +9575,20 @@
       cur = tmp = elem = elem || document;
 
       // Don't do events on text and comment nodes
+      // Не выполняйте события на узлах текста и комментариев
       if (elem.nodeType === 3 || elem.nodeType === 8) {
         return;
       }
 
       // focus/blur morphs to focusin/out; ensure we're not firing them right now
+      // фокус / размытие преобразуется в фокусировку / выключение; убедитесь, что мы не запускаем их прямо сейчас
       if (rfocusMorph.test(type + jQuery.event.triggered)) {
         return;
       }
 
       if (type.indexOf(".") > -1) {
         // Namespaced trigger; create a regexp to match event type in handle()
+        // Триггер пространства имен; создайте регулярное выражение, соответствующее типу события в handle()
         namespaces = type.split(".");
         type = namespaces.shift();
         namespaces.sort();
@@ -9565,11 +9596,13 @@
       ontype = type.indexOf(":") < 0 && "on" + type;
 
       // Caller can pass in a jQuery.Event object, Object, or just an event type string
+      // Вызывающий может передавать в jQuery.Объект события, Object или просто строка типа события
       event = event[jQuery.expando]
         ? event
         : new jQuery.Event(type, typeof event === "object" && event);
 
       // Trigger bitmask: & 1 for native handlers; & 2 for jQuery (always true)
+      // Битовая маска триггера: & 1 для собственных обработчиков; & 2 для jQuery (всегда верно)
       event.isTrigger = onlyHandlers ? 2 : 3;
       event.namespace = namespaces.join(".");
       event.rnamespace = event.namespace
@@ -9577,15 +9610,18 @@
         : null;
 
       // Clean up the event in case it is being reused
+      // Очистите событие на случай, если оно используется повторно
       event.result = undefined;
       if (!event.target) {
         event.target = elem;
       }
 
       // Clone any incoming data and prepend the event, creating the handler arg list
+      // Клонируйте любые входящие данные и добавляйте событие, создавая список аргументов обработчика
       data = data == null ? [event] : jQuery.makeArray(data, [event]);
 
       // Allow special events to draw outside the lines
+      // Разрешить вывод специальных событий за пределы линий
       special = jQuery.event.special[type] || {};
       if (
         !onlyHandlers &&
@@ -9596,7 +9632,9 @@
       }
 
       // Determine event propagation path in advance, per W3C events spec (#9951)
+      // Заранее определите путь распространения события в соответствии со спецификацией W3C events (#9951)
       // Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
+      // Перейдите к документу, затем к окну; следите за глобальным значением ownerDocument var (#9724)
       if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
         bubbleType = special.delegateType || type;
         if (!rfocusMorph.test(bubbleType + type)) {
@@ -9608,17 +9646,20 @@
         }
 
         // Only add window if we got to document (e.g., not plain obj or detached DOM)
+        // Добавляйте окно только в том случае, если мы попали в документ (например, не обычный obj или отдельный DOM)
         if (tmp === (elem.ownerDocument || document)) {
           eventPath.push(tmp.defaultView || tmp.parentWindow || window);
         }
       }
 
       // Fire handlers on the event path
+      // Обработчики срабатывания на пути к событию
       i = 0;
       while ((cur = eventPath[i++]) && !event.isPropagationStopped()) {
         event.type = i > 1 ? bubbleType : special.bindType || type;
 
         // jQuery handler
+        // Обработчик jQuery
         handle =
           (dataPriv.get(cur, "events") || {})[event.type] &&
           dataPriv.get(cur, "handle");
@@ -9627,6 +9668,7 @@
         }
 
         // Native handler
+        // Собственный обработчик
         handle = ontype && cur[ontype];
         if (handle && handle.apply && acceptData(cur)) {
           event.result = handle.apply(cur, data);
@@ -9638,6 +9680,7 @@
       event.type = type;
 
       // If nobody prevented the default action, do it now
+      // Если никто не предотвратил действие по умолчанию, сделайте это сейчас
       if (!onlyHandlers && !event.isDefaultPrevented()) {
         if (
           (!special._default ||
@@ -9645,13 +9688,16 @@
           acceptData(elem)
         ) {
           // Call a native DOM method on the target with the same name as the event.
+          // Вызовите собственный метод DOM для целевого объекта с тем же именем, что и событие.
           // Don't do default actions on window, that's where global variables be (#6170)
+          // Не выполняйте действия по умолчанию в окне, там должны быть глобальные переменные (#6170)
           if (
             ontype &&
             jQuery.isFunction(elem[type]) &&
             !jQuery.isWindow(elem)
           ) {
             // Don't re-trigger an onFOO event when we call its FOO() method
+            // Не запускайте повторно событие onFOO, когда мы вызываем его метод FOO()
             tmp = elem[ontype];
 
             if (tmp) {
@@ -9659,6 +9705,7 @@
             }
 
             // Prevent re-triggering of the same event, since we already bubbled it above
+            // Предотвратите повторный запуск того же события, поскольку мы уже описали его выше
             jQuery.event.triggered = type;
             elem[type]();
             jQuery.event.triggered = undefined;
@@ -9674,7 +9721,9 @@
     },
 
     // Piggyback on a donor event to simulate a different one
+    // Обратная связь с событием-донором для имитации другого события,
     // Used only for `focus(in | out)` events
+    // используемого только для событий `фокус (вход | выход)`
     simulate: function (type, elem, event) {
       var e = jQuery.extend(new jQuery.Event(), event, {
         type: type,
@@ -9728,16 +9777,24 @@
   support.focusin = "onfocusin" in window;
 
   // Support: Firefox <=44
+  // Поддержка: Firefox <=44
   // Firefox doesn't have focus(in | out) events
-  // Related ticket - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
+  // В Firefox нет событий focus (вход | выход)
+  // Related ticket  - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
+  // Связанный билет - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
   //
   // Support: Chrome <=48 - 49, Safari <=9.0 - 9.1
+  // Поддержка: Chrome <=48-49, Safari <=9.0 - 9.1
   // focus(in | out) events fire after focus & blur events,
-  // which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
-  // Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
+  // события фокусировки (вход | выход) срабатывают после событий фокусировки и размытия,
+  // which is spec violation              - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
+  // что является нарушением спецификации - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
+  // Related ticket        - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
+  // Соответствующий билет - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
   if (!support.focusin) {
     jQuery.each({ focus: "focusin", blur: "focusout" }, function (orig, fix) {
       // Attach a single capturing handler on the document while someone wants focusin/focusout
+      // Прикрепите один обработчик захвата к документу, пока кто-то хочет focusin/focusout
       var handler = function (event) {
         jQuery.event.simulate(fix, event.target, jQuery.event.fix(event));
       };
@@ -9773,6 +9830,7 @@
   var rquery = /\?/;
 
   // Cross-browser xml parsing
+  // Кроссбраузерный синтаксический анализ xml
   jQuery.parseXML = function (data) {
     var xml;
     if (!data || typeof data !== "string") {
@@ -9780,7 +9838,9 @@
     }
 
     // Support: IE 9 - 11 only
+    // Поддержка: только IE 9 - 11
     // IE throws on parseFromString with invalid input.
+    // IE выдает ошибку parseFromString с недопустимым вводом.
     try {
       xml = new window.DOMParser().parseFromString(data, "text/xml");
     } catch (e) {
@@ -9803,12 +9863,15 @@
 
     if (Array.isArray(obj)) {
       // Serialize array item.
+      // Сериализовать элемент массива.
       jQuery.each(obj, function (i, v) {
         if (traditional || rbracket.test(prefix)) {
           // Treat each array item as a scalar.
+          // Рассматривайте каждый элемент массива как скаляр.
           add(prefix, v);
         } else {
           // Item is non-scalar (array or object), encode its numeric index.
+          // Элемент нескалярный (массив или объект), закодируйте его числовой индекс.
           buildParams(
             prefix + "[" + (typeof v === "object" && v != null ? i : "") + "]",
             v,
@@ -9819,22 +9882,27 @@
       });
     } else if (!traditional && jQuery.type(obj) === "object") {
       // Serialize object item.
+      // Сериализовать элемент объекта.
       for (name in obj) {
         buildParams(prefix + "[" + name + "]", obj[name], traditional, add);
       }
     } else {
       // Serialize scalar item.
+      // Сериализовать скалярный элемент.
       add(prefix, obj);
     }
   }
 
   // Serialize an array of form elements or a set of
+  // Сериализовать массив элементов формы или набор
   // key/values into a query string
+  // ключей/значений в строку запроса
   jQuery.param = function (a, traditional) {
     var prefix,
       s = [],
       add = function (key, valueOrFunction) {
         // If value is a function, invoke it and use its return value
+        // Если значение является функцией, вызовите ее и используйте возвращаемое значение
         var value = jQuery.isFunction(valueOrFunction)
           ? valueOrFunction()
           : valueOrFunction;
@@ -9846,20 +9914,25 @@
       };
 
     // If an array was passed in, assume that it is an array of form elements.
+    // Если был передан массив, предположим, что это массив элементов формы.
     if (Array.isArray(a) || (a.jquery && !jQuery.isPlainObject(a))) {
       // Serialize the form elements
+      // Сериализовать элементы формы
       jQuery.each(a, function () {
         add(this.name, this.value);
       });
     } else {
       // If traditional, encode the "old" way (the way 1.3.2 or older
+      // Если традиционный, кодируйте "старым" способом (как это делалось в версии 1.3.2 или более
       // did it), otherwise encode params recursively.
+      // поздней версии), в противном случае кодируйте параметры рекурсивно.
       for (prefix in a) {
         buildParams(prefix, a[prefix], traditional, add);
       }
     }
 
     // Return the resulting serialization
+    // Возвращает результирующую сериализацию
     return s.join("&");
   };
 
@@ -9870,6 +9943,7 @@
     serializeArray: function () {
       return this.map(function () {
         // Can add propHook for "elements" to filter or add form elements
+        // Можно добавить prop-крючок для "элементов" для фильтрации или добавления элементов формы
         var elements = jQuery.prop(this, "elements");
         return elements ? jQuery.makeArray(elements) : this;
       })
@@ -9877,6 +9951,7 @@
           var type = this.type;
 
           // Use .is( ":disabled" ) so that fieldset[disabled] works
+          // Используйте .is( ":отключено" ), чтобы набор полей[отключен] работал
           return (
             this.name &&
             !jQuery(this).is(":disabled") &&
@@ -9909,35 +9984,52 @@
     rantiCache = /([?&])_=[^&]*/,
     rheaders = /^(.*?):[ \t]*([^\r\n]*)$/gm,
     // #7653, #8125, #8152: local protocol detection
+    // #7653, #8125, #8152: обнаружение локального протокола
     rlocalProtocol =
       /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
     rnoContent = /^(?:GET|HEAD)$/,
     rprotocol = /^\/\//,
-    /* Prefilters
+    /**  Prefilters
+     *   Предварительные фильтры
      * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
+     * 1) Они полезны для введения пользовательских типов данных (см. ajax/jsonp.js для примера)
      * 2) These are called:
+     * 2) Они называются:
      *    - BEFORE asking for a transport
+     *    - ПРЕЖДЕ чем запрашивать транспорт
      *    - AFTER param serialization (s.data is a string if s.processData is true)
+     *    - ПОСЛЕ сериализации параметров (s.data является строкой, если s.ProcessData имеет значение true)
      * 3) key is the dataType
+     * 3) ключ - это тип данных
      * 4) the catchall symbol "*" can be used
+     * 4) можно использовать общий символ "*".
      * 5) execution will start with transport dataType and THEN continue down to "*" if needed
+     * 5) выполнение начнется с транспортного типа данных, а затем продолжится до "*", если необходимо
      */
     prefilters = {},
-    /* Transports bindings
+    /**   Transports bindings
+     *    Транспортирует привязки
      * 1) key is the dataType
+     * 1) ключ - это тип данных
      * 2) the catchall symbol "*" can be used
+     * 2) можно использовать общий символ "*".
      * 3) selection will start with transport dataType and THEN go to "*" if needed
+     * 3) выбор начнется с транспортного типа данных, а затем при необходимости перейдет к "*"
      */
     transports = {},
     // Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
+    // Избегать комментария-последовательность символов prolog (#10098); должна смягчать ворсинку и избегать сжатия
     allTypes = "*/".concat("*"),
     // Anchor tag for parsing the document origin
+    // Тег привязки для синтаксического анализа источника документа
     originAnchor = document.createElement("a");
   originAnchor.href = location.href;
 
   // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
+  // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
   function addToPrefiltersOrTransports(structure) {
     // dataTypeExpression is optional and defaults to "*"
+    // dataTypeExpression является необязательным и по умолчанию имеет значение "*"
     return function (dataTypeExpression, func) {
       if (typeof dataTypeExpression !== "string") {
         func = dataTypeExpression;
@@ -9950,13 +10042,16 @@
 
       if (jQuery.isFunction(func)) {
         // For each dataType in the dataTypeExpression
+        // Для каждого типа данных в выражении dataTypeExpression
         while ((dataType = dataTypes[i++])) {
           // Prepend if requested
+          // Добавить по запросу
           if (dataType[0] === "+") {
             dataType = dataType.slice(1) || "*";
             (structure[dataType] = structure[dataType] || []).unshift(func);
 
             // Otherwise append
+            // В противном случае добавить
           } else {
             (structure[dataType] = structure[dataType] || []).push(func);
           }
@@ -9966,6 +10061,7 @@
   }
 
   // Base inspection function for prefilters and transports
+  // Базовая функция контроля для предварительных фильтров и транспортировок
   function inspectPrefiltersOrTransports(
     structure,
     options,
@@ -10003,8 +10099,11 @@
   }
 
   // A special extend for ajax options
+  // Специальное расширение для параметров ajax,
   // that takes "flat" options (not to be deep extended)
+  // которое принимает "плоские" параметры (не подлежащие глубокому расширению)
   // Fixes #9887
+  // Исправляет #9887
   function ajaxExtend(target, src) {
     var key,
       deep,
@@ -10022,9 +10121,12 @@
     return target;
   }
 
-  /* Handles responses to an ajax request:
+  /** Handles responses to an ajax request:
+   *  Обрабатывает ответы на ajax-запрос:
    * - finds the right dataType (mediates between content-type and expected dataType)
+   * - находит правильный тип данных (является посредником между типом содержимого и ожидаемым типом данных)
    * - returns the corresponding response
+   * - возвращает соответствующий ответ
    */
   function ajaxHandleResponses(s, jqXHR, responses) {
     var ct,
@@ -10035,6 +10137,7 @@
       dataTypes = s.dataTypes;
 
     // Remove auto dataType and get content-type in the process
+    // Удалите автоматический тип данных и получите content-type в процессе
     while (dataTypes[0] === "*") {
       dataTypes.shift();
       if (ct === undefined) {
@@ -10043,6 +10146,7 @@
     }
 
     // Check if we're dealing with a known content-type
+    // Проверьте, имеем ли мы дело с известным типом контента
     if (ct) {
       for (type in contents) {
         if (contents[type] && contents[type].test(ct)) {
@@ -10053,10 +10157,12 @@
     }
 
     // Check to see if we have a response for the expected dataType
+    // Проверьте, есть ли у нас ответ для ожидаемого типа данных
     if (dataTypes[0] in responses) {
       finalDataType = dataTypes[0];
     } else {
       // Try convertible dataTypes
+      // Попробуйте конвертируемые типы данных
       for (type in responses) {
         if (!dataTypes[0] || s.converters[type + " " + dataTypes[0]]) {
           finalDataType = type;
@@ -10068,12 +10174,16 @@
       }
 
       // Or just use first one
+      // Или просто используйте первый из них
       finalDataType = finalDataType || firstDataType;
     }
 
     // If we found a dataType
+    // Если мы нашли тип данных
     // We add the dataType to the list if needed
+    // При необходимости мы добавляем тип данных в список
     // and return the corresponding response
+    // и возвращаем соответствующий ответ
     if (finalDataType) {
       if (finalDataType !== dataTypes[0]) {
         dataTypes.unshift(finalDataType);
@@ -10082,8 +10192,10 @@
     }
   }
 
-  /* Chain conversions given the request and the original response
+  /** Chain conversions given the request and the original response
+   * Цепочка преобразований с учетом запроса и исходного ответа
    * Also sets the responseXXX fields on the jqXHR instance
+   * также устанавливает поля responseXXX в экземпляре jqXHR
    */
   function ajaxConvert(s, response, jqXHR, isSuccess) {
     var conv2,
@@ -10093,9 +10205,11 @@
       prev,
       converters = {},
       // Work with a copy of dataTypes in case we need to modify it for conversion
+      // Работаем с копией типов данных на случай, если нам потребуется изменить ее для преобразования
       dataTypes = s.dataTypes.slice();
 
     // Create converters map with lowercased keys
+    // Создать карту конвертеров с помощью клавиш в нижнем регистре
     if (dataTypes[1]) {
       for (conv in s.converters) {
         converters[conv.toLowerCase()] = s.converters[conv];
@@ -10105,12 +10219,14 @@
     current = dataTypes.shift();
 
     // Convert to each sequential dataType
+    // Преобразовать в каждый последовательный тип данных
     while (current) {
       if (s.responseFields[current]) {
         jqXHR[s.responseFields[current]] = response;
       }
 
       // Apply the dataFilter if provided
+      // Примените фильтр данных, если он предусмотрен
       if (!prev && isSuccess && s.dataFilter) {
         response = s.dataFilter(response, s.dataType);
       }
@@ -10120,29 +10236,37 @@
 
       if (current) {
         // There's only work to do if current dataType is non-auto
+        // Есть работа, которую нужно выполнить только в том случае, если текущий тип данных не является автоматическим
         if (current === "*") {
           current = prev;
 
           // Convert response if prev dataType is non-auto and differs from current
+          // Преобразовать ответ, если предыдущий тип данных не является автоматическим и отличается от текущего
         } else if (prev !== "*" && prev !== current) {
           // Seek a direct converter
+          // Ищите прямой конвертер
           conv = converters[prev + " " + current] || converters["* " + current];
 
           // If none found, seek a pair
+          // Если ничего не найдено, поищите пару
           if (!conv) {
             for (conv2 in converters) {
               // If conv2 outputs current
+              // Если conv2 выводит текущий
               tmp = conv2.split(" ");
               if (tmp[1] === current) {
                 // If prev can be converted to accepted input
+                // Если предыдущее значение может быть преобразовано в принятый ввод
                 conv =
                   converters[prev + " " + tmp[0]] || converters["* " + tmp[0]];
                 if (conv) {
                   // Condense equivalence converters
+                  // Преобразователи эквивалентности конденсации
                   if (conv === true) {
                     conv = converters[conv2];
 
                     // Otherwise, insert the intermediate dataType
+                    // В противном случае вставьте промежуточный тип данных
                   } else if (converters[conv2] !== true) {
                     current = tmp[0];
                     dataTypes.unshift(tmp[1]);
@@ -10154,8 +10278,10 @@
           }
 
           // Apply converter (if not an equivalence)
+          // Применить конвертер (если это не эквивалентно)
           if (conv !== true) {
             // Unless errors are allowed to bubble, catch and return them
+            // Если только ошибкам не разрешено всплывать, перехватывайте и возвращайте их
             if (conv && s.throws) {
               response = conv(response);
             } else {
@@ -10180,9 +10306,11 @@
 
   jQuery.extend({
     // Counter for holding the number of active queries
+    // Счетчик для хранения количества активных запросов
     active: 0,
 
     // Last-Modified header cache for next request
+    // Кэш заголовка с последним изменением для следующего запроса
     lastModified: {},
     etag: {},
 
@@ -10228,25 +10356,36 @@
       },
 
       // Data converters
+      // Преобразователи данных
       // Keys separate source (or catchall "*") and destination types with a single space
+      // Ключи разделяют типы источника (или общий символ "*") и назначения одним пробелом
+
       converters: {
         // Convert anything to text
+        // Преобразовать что-либо в текст
         "* text": String,
 
         // Text to html (true = no transformation)
+        // Текст в html (true = без преобразования)
         "text html": true,
 
         // Evaluate text as a json expression
+        // Вычислить текст как выражение json
         "text json": JSON.parse,
 
         // Parse text as xml
+        // Анализировать текст в формате xml
         "text xml": jQuery.parseXML,
       },
 
       // For options that shouldn't be deep extended:
+      // Для опций, которые не должны быть глубоко расширены:
       // you can add your own custom options here if
+      // вы можете добавить свои собственные пользовательские параметры здесь, если
       // and when you create one that shouldn't be
+      // и когда вы создаете тот, который не должен быть
       // deep extended (see ajaxExtend)
+      // глубоко расширен (см. ajaxExtend)
       flatOptions: {
         url: true,
         context: true,
@@ -10254,13 +10393,18 @@
     },
 
     // Creates a full fledged settings object into target
+    // Создает полноценный объект настроек в target
     // with both ajaxSettings and settings fields.
+    // как с ajaxSettings, так и с полями настроек.
     // If target is omitted, writes into ajaxSettings.
+    // Если target опущен, выполняется запись в ajaxSettings.
     ajaxSetup: function (target, settings) {
       return settings
         ? // Building a settings object
+          // Создание объекта настроек
           ajaxExtend(ajaxExtend(target, jQuery.ajaxSettings), settings)
         : // Extending ajaxSettings
+          // Расширение ajaxSettings
           ajaxExtend(jQuery.ajaxSettings, target);
     },
 
@@ -10268,58 +10412,78 @@
     ajaxTransport: addToPrefiltersOrTransports(transports),
 
     // Main method
+    // Основной метод
     ajax: function (url, options) {
       // If url is an object, simulate pre-1.5 signature
+      // Если url-адрес является объектом, имитируйте подпись до 1.5
       if (typeof url === "object") {
         options = url;
         url = undefined;
       }
 
       // Force options to be an object
+      // Заставить параметры быть объектом
       options = options || {};
 
       var transport,
         // URL without anti-cache param
+        // URL-адрес без параметра защиты от кэша
         cacheURL,
         // Response headers
+        // Заголовки ответов
         responseHeadersString,
         responseHeaders,
         // timeout handle
+        // ручка тайм-аута
         timeoutTimer,
         // Url cleanup var
+        // Url-адрес для очистки var
         urlAnchor,
         // Request state (becomes false upon send and true upon completion)
+        // Состояние запроса (становится ложным при отправке и истинным по завершении)
         completed,
         // To know if global events are to be dispatched
+        // Чтобы знать, должны ли быть отправлены глобальные события
         fireGlobals,
         // Loop variable
+        // Переменная цикла
         i,
         // uncached part of the url
+        // некэшированная часть URL-адреса
         uncached,
         // Create the final options object
+        // Создайте объект окончательных параметров
         s = jQuery.ajaxSetup({}, options),
         // Callbacks context
+        // Контекст обратных вызовов
         callbackContext = s.context || s,
         // Context for global events is callbackContext if it is a DOM node or jQuery collection
+        // Контекстом для глобальных событий является callbackContext, если это узел DOM или коллекция jQuery
         globalEventContext =
           s.context && (callbackContext.nodeType || callbackContext.jquery)
             ? jQuery(callbackContext)
             : jQuery.event,
         // Deferreds
+        // Отложенный
         deferred = jQuery.Deferred(),
         completeDeferred = jQuery.Callbacks("once memory"),
         // Status-dependent callbacks
+        // Обратные вызовы, зависящие от статуса
         statusCode = s.statusCode || {},
         // Headers (they are sent all at once)
+        // Заголовки (они отправляются все сразу)
         requestHeaders = {},
         requestHeadersNames = {},
         // Default abort message
+        // Сообщение об отмене по умолчанию
         strAbort = "canceled",
         // Fake xhr
+        // Поддельный xhr
         jqXHR = {
           readyState: 0,
 
           // Builds headers hashtable if needed
+          // При необходимости создает хэш-таблицу заголовков
           getResponseHeader: function (key) {
             var match;
             if (completed) {
@@ -10335,11 +10499,13 @@
           },
 
           // Raw string
+          // Необработанная строка
           getAllResponseHeaders: function () {
             return completed ? responseHeadersString : null;
           },
 
           // Caches the header
+          // Кэширует заголовок
           setRequestHeader: function (name, value) {
             if (completed == null) {
               name = requestHeadersNames[name.toLowerCase()] =
@@ -10350,6 +10516,7 @@
           },
 
           // Overrides response content-type header
+          // Переопределяет заголовок типа содержимого ответа
           overrideMimeType: function (type) {
             if (completed == null) {
               s.mimeType = type;
@@ -10358,14 +10525,17 @@
           },
 
           // Status-dependent callbacks
+          // Обратные вызовы, зависящие от статуса
           statusCode: function (map) {
             var code;
             if (map) {
               if (completed) {
                 // Execute the appropriate callbacks
+                // Выполните соответствующие обратные вызовы
                 jqXHR.always(map[jqXHR.status]);
               } else {
                 // Lazy-add the new callbacks in a way that preserves old ones
+                // Lazy - добавьте новые обратные вызовы таким образом, чтобы сохранить старые
                 for (code in map) {
                   statusCode[code] = [statusCode[code], map[code]];
                 }
@@ -10375,6 +10545,7 @@
           },
 
           // Cancel the request
+          // Отменить запрос
           abort: function (statusText) {
             var finalText = statusText || strAbort;
             if (transport) {
@@ -10386,94 +10557,122 @@
         };
 
       // Attach deferreds
+      // Прикрепить отсрочки
       deferred.promise(jqXHR);
 
       // Add protocol if not provided (prefilters might expect it)
+      // Добавить протокол, если он не предоставлен (этого могут ожидать предварительные фильтры)
       // Handle falsy url in the settings object (#10093: consistency with old signature)
+      // Обработайте ложный URL-адрес в объекте настроек (#10093: соответствие старой подписи)
       // We also use the url parameter if available
+      // Мы также используем параметр url, если он доступен
       s.url = ((url || s.url || location.href) + "").replace(
         rprotocol,
         location.protocol + "//"
       );
 
       // Alias method option to type as per ticket #12004
+      // Вариант метода псевдонима для ввода в соответствии с тикетом #12004
       s.type = options.method || options.type || s.method || s.type;
 
       // Extract dataTypes list
+      // Извлечь список типов данных
       s.dataTypes = (s.dataType || "*").toLowerCase().match(rnothtmlwhite) || [
         "",
       ];
 
       // A cross-domain request is in order when the origin doesn't match the current origin.
+      // Междоменный запрос выполняется, когда источник не совпадает с текущим источником.
       if (s.crossDomain == null) {
         urlAnchor = document.createElement("a");
 
         // Support: IE <=8 - 11, Edge 12 - 13
+        // Поддержка: IE <=8 - 11, Edge 12 - 13
         // IE throws exception on accessing the href property if url is malformed,
+        // IE выдает исключение при доступе к свойству href, если URL неверно сформирован,
         // e.g. http://example.com:80x/
         try {
           urlAnchor.href = s.url;
 
           // Support: IE <=8 - 11 only
+          // Поддержка: только IE <=8 - 11
           // Anchor's host property isn't correctly set when s.url is relative
+          // Свойство хоста / Anchor задано неправильно, если s.url является относительным
           urlAnchor.href = urlAnchor.href;
           s.crossDomain =
             originAnchor.protocol + "//" + originAnchor.host !==
             urlAnchor.protocol + "//" + urlAnchor.host;
         } catch (e) {
           // If there is an error parsing the URL, assume it is crossDomain,
+          // Если при синтаксическом анализе URL возникает ошибка, предположим,
           // it can be rejected by the transport if it is invalid
+          // что это междоменный URL, он может быть отклонен транспортом, если он недействителен
           s.crossDomain = true;
         }
       }
 
       // Convert data if not already a string
+      // Преобразовать данные, если они еще не являются строкой
       if (s.data && s.processData && typeof s.data !== "string") {
         s.data = jQuery.param(s.data, s.traditional);
       }
 
       // Apply prefilters
+      // Применить предварительные фильтры
       inspectPrefiltersOrTransports(prefilters, s, options, jqXHR);
 
       // If request was aborted inside a prefilter, stop there
+      // Если запрос был прерван внутри предварительного фильтра, остановитесь на этом
       if (completed) {
         return jqXHR;
       }
 
       // We can fire global events as of now if asked to
+      // На данный момент мы можем запускать глобальные события, если нас попросят
       // Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
+      // не запускать события, если jQuery.event не определен в сценарии использования AMD (#15118)
       fireGlobals = jQuery.event && s.global;
 
       // Watch for a new set of requests
+      // Следите за новым набором запросов
       if (fireGlobals && jQuery.active++ === 0) {
         jQuery.event.trigger("ajaxStart");
       }
 
       // Uppercase the type
+      // Введите тип в верхнем регистре
       s.type = s.type.toUpperCase();
 
       // Determine if request has content
+      // Определить, содержит ли запрос содержимое
       s.hasContent = !rnoContent.test(s.type);
 
       // Save the URL in case we're toying with the If-Modified-Since
-      // and/or If-None-Match header later on
+      // Сохраните URL-адрес на случай, если мы позже будем играть с заголовком If-Modified-Since
+      // and/or If-None-Match header later on Remove hash to simplify url manipulation
+      // и / или If-None-Match, удалите хэш, чтобы упростить манипулирование URL-адресом
       // Remove hash to simplify url manipulation
       cacheURL = s.url.replace(rhash, "");
 
       // More options handling for requests with no content
+      // Дополнительные параметры обработки запросов без содержимого
       if (!s.hasContent) {
         // Remember the hash so we can put it back
+        // Запомните хэш, чтобы мы могли вернуть его обратно
         uncached = s.url.slice(cacheURL.length);
 
         // If data is available, append data to url
+        // Если данные доступны, добавьте данные к url
         if (s.data) {
           cacheURL += (rquery.test(cacheURL) ? "&" : "?") + s.data;
 
           // #9682: remove data so that it's not used in an eventual retry
+          // #9682: удалите данные, чтобы они не использовались при возможной повторной попытке
           delete s.data;
         }
 
         // Add or update anti-cache param if needed
+        // При необходимости добавьте или обновите параметр защиты от кэширования
         if (s.cache === false) {
           cacheURL = cacheURL.replace(rantiCache, "$1");
           uncached =
@@ -10481,9 +10680,11 @@
         }
 
         // Put hash and anti-cache on the URL that will be requested (gh-1732)
+        // Поместите хэш и анти-кэш на URL, который будет запрошен (gh1732)
         s.url = cacheURL + uncached;
 
         // Change '%20' to '+' if this is encoded form body content (gh-2658)
+        // Измените '%20' на '+', если это закодированное содержимое тела формы (gh-2658)
       } else if (
         s.data &&
         s.processData &&
@@ -10493,6 +10694,7 @@
       }
 
       // Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
+      // Установите заголовок If-Modified-Since и/или If-None-Match, если он находится в режиме ifModified.
       if (s.ifModified) {
         if (jQuery.lastModified[cacheURL]) {
           jqXHR.setRequestHeader(
@@ -10506,6 +10708,7 @@
       }
 
       // Set the correct header, if data is being sent
+      // Установите правильный заголовок, если данные отправляются
       if (
         (s.data && s.hasContent && s.contentType !== false) ||
         options.contentType
@@ -10514,6 +10717,7 @@
       }
 
       // Set the Accepts header for the server, depending on the dataType
+      // Установите заголовок Accepts для сервера в зависимости от типа данных
       jqXHR.setRequestHeader(
         "Accept",
         s.dataTypes[0] && s.accepts[s.dataTypes[0]]
@@ -10523,47 +10727,57 @@
       );
 
       // Check for headers option
+      // Проверьте наличие опции headers (заголовки)
       for (i in s.headers) {
         jqXHR.setRequestHeader(i, s.headers[i]);
       }
 
       // Allow custom headers/mimetypes and early abort
+      // Разрешить пользовательские заголовки / миметипы и досрочное прерывание
       if (
         s.beforeSend &&
         (s.beforeSend.call(callbackContext, jqXHR, s) === false || completed)
       ) {
         // Abort if not done already and return
+        // Прервать, если еще не сделано, и вернуть
         return jqXHR.abort();
       }
 
       // Aborting is no longer a cancellation
+      // Аборт больше не является отменой
       strAbort = "abort";
 
       // Install callbacks on deferreds
+      // Установить обратные вызовы при отсрочках
       completeDeferred.add(s.complete);
       jqXHR.done(s.success);
       jqXHR.fail(s.error);
 
       // Get transport
+      // Получить транспорт
       transport = inspectPrefiltersOrTransports(transports, s, options, jqXHR);
 
       // If no transport, we auto-abort
+      // Если транспорта нет, мы автоматически прерываем
       if (!transport) {
         done(-1, "No Transport");
       } else {
         jqXHR.readyState = 1;
 
         // Send global event
+        // Отправить глобальное событие
         if (fireGlobals) {
           globalEventContext.trigger("ajaxSend", [jqXHR, s]);
         }
 
         // If request was aborted inside ajaxSend, stop there
+        // Если запрос был прерван внутри ajaxSend, остановитесь на этом
         if (completed) {
           return jqXHR;
         }
 
         // Timeout
+        // Тайм-аут
         if (s.async && s.timeout > 0) {
           timeoutTimer = window.setTimeout(function () {
             jqXHR.abort("timeout");
@@ -10575,16 +10789,19 @@
           transport.send(requestHeaders, done);
         } catch (e) {
           // Rethrow post-completion exceptions
+          // Повторное использование исключений после завершения
           if (completed) {
             throw e;
           }
 
           // Propagate others as results
+          // Распространять другие в качестве результатов
           done(-1, e);
         }
       }
 
       // Callback for when everything is done
+      // Обратный вызов, когда все будет сделано
       function done(status, nativeStatusText, responses, headers) {
         var isSuccess,
           success,
@@ -10594,6 +10811,7 @@
           statusText = nativeStatusText;
 
         // Ignore repeat invocations
+        // Игнорировать повторные вызовы
         if (completed) {
           return;
         }
@@ -10601,34 +10819,44 @@
         completed = true;
 
         // Clear timeout if it exists
+        // Очистить тайм-аут, если он существует
         if (timeoutTimer) {
           window.clearTimeout(timeoutTimer);
         }
 
         // Dereference transport for early garbage collection
+        // Разыменование транспорта для ранней сборки мусора
         // (no matter how long the jqXHR object will be used)
+        // (независимо от того, как долго будет использоваться объект jqXHR)
         transport = undefined;
 
         // Cache response headers
+        // Заголовки ответов кэша
         responseHeadersString = headers || "";
 
         // Set readyState
+        // Установить состояние готовности
         jqXHR.readyState = status > 0 ? 4 : 0;
 
         // Determine if successful
+        // Определить, успешен ли
         isSuccess = (status >= 200 && status < 300) || status === 304;
 
         // Get response data
+        // Получить данные ответа
         if (responses) {
           response = ajaxHandleResponses(s, jqXHR, responses);
         }
 
         // Convert no matter what (that way responseXXX fields are always set)
+        // Конвертировать независимо ни от чего (таким образом, поля responseXXX всегда задаются)
         response = ajaxConvert(s, response, jqXHR, isSuccess);
 
         // If successful, handle type chaining
+        // В случае успеха обработайте цепочку типов
         if (isSuccess) {
           // Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
+          // Установите заголовок If-Modified-Since и/или If-None-Match, если он находится в режиме ifModified.
           if (s.ifModified) {
             modified = jqXHR.getResponseHeader("Last-Modified");
             if (modified) {
@@ -10641,14 +10869,17 @@
           }
 
           // if no content
+          // если нет содержимого
           if (status === 204 || s.type === "HEAD") {
             statusText = "nocontent";
 
             // if not modified
+            // если не изменено
           } else if (status === 304) {
             statusText = "notmodified";
 
             // If we have data, let's convert it
+            // Если у нас есть данные, давайте преобразуем их
           } else {
             statusText = response.state;
             success = response.data;
@@ -10657,6 +10888,7 @@
           }
         } else {
           // Extract error from statusText and normalize for non-aborts
+          // Извлечь ошибку из statusText и нормализовать для не прерываний
           error = statusText;
           if (status || !statusText) {
             statusText = "error";
@@ -10667,10 +10899,12 @@
         }
 
         // Set data for the fake xhr object
+        // Установить данные для поддельного объекта xhr
         jqXHR.status = status;
         jqXHR.statusText = (nativeStatusText || statusText) + "";
 
         // Success/Error
+        // Успех/Ошибка
         if (isSuccess) {
           deferred.resolveWith(callbackContext, [success, statusText, jqXHR]);
         } else {
@@ -10678,6 +10912,7 @@
         }
 
         // Status-dependent callbacks
+        // Обратные вызовы, зависящие от статуса
         jqXHR.statusCode(statusCode);
         statusCode = undefined;
 
@@ -10690,12 +10925,14 @@
         }
 
         // Complete
+        // Завершить
         completeDeferred.fireWith(callbackContext, [jqXHR, statusText]);
 
         if (fireGlobals) {
           globalEventContext.trigger("ajaxComplete", [jqXHR, s]);
 
           // Handle the global AJAX counter
+          // Обрабатывать глобальный счетчик AJAX
           if (!--jQuery.active) {
             jQuery.event.trigger("ajaxStop");
           }
@@ -10717,6 +10954,7 @@
   jQuery.each(["get", "post"], function (i, method) {
     jQuery[method] = function (url, data, callback, type) {
       // Shift arguments if data argument was omitted
+      // Сдвиг аргументов, если аргумент данных был опущен
       if (jQuery.isFunction(data)) {
         type = type || callback;
         callback = data;
@@ -10724,6 +10962,7 @@
       }
 
       // The url can be an options object (which then must have .url)
+      // URL-адрес может быть объектом options (который тогда должен иметь .url)
       return jQuery.ajax(
         jQuery.extend(
           {
@@ -10744,6 +10983,7 @@
       url: url,
 
       // Make this explicit, since user can override this through ajaxSetup (#11264)
+      // Сделайте это явным, поскольку пользователь может переопределить это с помощью ajaxSetup (#11264)
       type: "GET",
       dataType: "script",
       cache: true,
@@ -10763,6 +11003,7 @@
         }
 
         // The elements to wrap the target around
+        // Элементы, вокруг которых нужно обернуть цель
         wrap = jQuery(html, this[0].ownerDocument).eq(0).clone(true);
 
         if (this[0].parentNode) {
@@ -10841,10 +11082,13 @@
 
   var xhrSuccessStatus = {
       // File protocol always yields status code 0, assume 200
+      // Файловый протокол всегда выдает код состояния 0, предположим, 200
       0: 200,
 
       // Support: IE <=9 only
+      // Поддержка: только IE <=9
       // #1450: sometimes IE returns 1223 when it should be 204
+      // #1450: иногда IE возвращает 1223, когда должно быть 204
       1223: 204,
     },
     xhrSupported = jQuery.ajaxSettings.xhr();
@@ -10856,6 +11100,7 @@
     var callback, errorCallback;
 
     // Cross domain only allowed if supported through XMLHttpRequest
+    // Междоменный доступ разрешен только в том случае, если поддерживается через XMLHttpRequest
     if (support.cors || (xhrSupported && !options.crossDomain)) {
       return {
         send: function (headers, complete) {
@@ -10871,6 +11116,7 @@
           );
 
           // Apply custom fields if provided
+          // Применить пользовательские поля, если они предоставлены
           if (options.xhrFields) {
             for (i in options.xhrFields) {
               xhr[i] = options.xhrFields[i];
@@ -10878,25 +11124,33 @@
           }
 
           // Override mime type if needed
+          // Переопределить тип mime, если это необходимо
           if (options.mimeType && xhr.overrideMimeType) {
             xhr.overrideMimeType(options.mimeType);
           }
 
           // X-Requested-With header
+          // X-Запрошено-С заголовком
           // For cross-domain requests, seeing as conditions for a preflight are
+          // Для междоменных запросов, поскольку условия для предполетной проверки
           // akin to a jigsaw puzzle, we simply never set it to be sure.
+          // сродни пазлу, мы просто никогда не устанавливаем его для уверенности.
           // (it can always be set on a per-request basis or even using ajaxSetup)
+          // (его всегда можно установить для каждого запроса или даже с помощью ajaxSetup)
           // For same-domain requests, won't change header if already provided.
+          // Для запросов из того же домена заголовок не будет меняться, если он уже предоставлен.
           if (!options.crossDomain && !headers["X-Requested-With"]) {
             headers["X-Requested-With"] = "XMLHttpRequest";
           }
 
           // Set headers
+          // Установить заголовки
           for (i in headers) {
             xhr.setRequestHeader(i, headers[i]);
           }
 
           // Callback
+          // Обратный вызов
           callback = function (type) {
             return function () {
               if (callback) {
@@ -10912,13 +11166,17 @@
                   xhr.abort();
                 } else if (type === "error") {
                   // Support: IE <=9 only
+                  // Поддержка: только IE <=9
                   // On a manual native abort, IE9 throws
+                  // При ручном прерывании IE9 выдает
                   // errors on any property access that is not readyState
+                  // ошибки при любом доступе к свойству, которое не находится в состоянии готовности
                   if (typeof xhr.status !== "number") {
                     complete(0, "error");
                   } else {
                     complete(
                       // File: protocol always yields status 0; see #8605, #14207
+                      // Файл: протокол всегда выдает статус 0; см. #8605, #14207
                       xhr.status,
                       xhr.statusText
                     );
@@ -10929,8 +11187,11 @@
                     xhr.statusText,
 
                     // Support: IE <=9 only
+                    // Поддержка: только IE <=9
                     // IE9 has no XHR2 but throws on binary (trac-11426)
+                    // IE9 не имеет XHR2, но выдает двоичный файл (trac-11426)
                     // For XHR2 non-text, let the caller handle it (gh-2498)
+                    // Для нетекстового XHR2 позвольте вызывающей стороне обработать его (gh-2498)
                     (xhr.responseType || "text") !== "text" ||
                       typeof xhr.responseText !== "string"
                       ? { binary: xhr.response }
@@ -10943,22 +11204,31 @@
           };
 
           // Listen to events
+          // Прослушивание событий
           xhr.onload = callback();
           errorCallback = xhr.onerror = callback("error");
 
           // Support: IE 9 only
+          // Поддержка: только IE 9
           // Use onreadystatechange to replace onabort
+          // Используйте onreadystatechange для замены onabort
           // to handle uncaught aborts
+          // для обработки неотхваченных прерываний
           if (xhr.onabort !== undefined) {
             xhr.onabort = errorCallback;
           } else {
             xhr.onreadystatechange = function () {
               // Check readyState before timeout as it changes
+              // Проверьте readyState перед таймаутом по мере его изменения
               if (xhr.readyState === 4) {
                 // Allow onerror to be called first,
+                // Разрешить сначала вызывать on error,
                 // but that will not handle a native abort
+                // но это также не обработает собственное прерывание,
                 // Also, save errorCallback to a variable
+                // сохраните errorCallback в переменной
                 // as xhr.onerror cannot be accessed
+                // как xhr.onerror не может быть доступен
                 window.setTimeout(function () {
                   if (callback) {
                     errorCallback();
@@ -10969,13 +11239,16 @@
           }
 
           // Create the abort callback
+          // Создайте обратный вызов прерывания
           callback = callback("abort");
 
           try {
             // Do send the request (this may raise an exception)
+            // Действительно отправьте запрос (это может вызвать исключение)
             xhr.send((options.hasContent && options.data) || null);
           } catch (e) {
             // #14683: Only rethrow if this hasn't been notified as an error yet
+            // #14683: Повторный ввод только в том случае, если об этом еще не было сообщено как об ошибке
             if (callback) {
               throw e;
             }
@@ -10992,6 +11265,7 @@
   });
 
   // Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
+  // Запретить автоматическое выполнение скриптов, если не был указан явный тип данных (см. gh-2432)
   jQuery.ajaxPrefilter(function (s) {
     if (s.crossDomain) {
       s.contents.script = false;
@@ -10999,6 +11273,7 @@
   });
 
   // Install script dataType
+  // Тип данных скрипта установки
   jQuery.ajaxSetup({
     accepts: {
       script:
@@ -11017,6 +11292,7 @@
   });
 
   // Handle cache's special case and crossDomain
+  // Обрабатывать особый случай кэша и междоменность
   jQuery.ajaxPrefilter("script", function (s) {
     if (s.cache === undefined) {
       s.cache = false;
@@ -11027,8 +11303,10 @@
   });
 
   // Bind script tag hack transport
+  // Привязать тег скрипта для взлома транспорта
   jQuery.ajaxTransport("script", function (s) {
     // This transport only deals with cross domain requests
+    // Этот транспорт обрабатывает только междоменные запросы
     if (s.crossDomain) {
       var script, callback;
       return {
@@ -11050,6 +11328,7 @@
             );
 
           // Use native DOM manipulation to avoid our domManip AJAX trickery
+          // Используйте собственные манипуляции с DOM, чтобы избежать нашего обмана DOMmanip AJAX
           document.head.appendChild(script[0]);
         },
         abort: function () {
@@ -11065,6 +11344,7 @@
     rjsonp = /(=)\?(?=&|$)|\?\?/;
 
   // Default jsonp settings
+  // Настройки jsonp по умолчанию
   jQuery.ajaxSetup({
     jsonp: "callback",
     jsonpCallback: function () {
@@ -11075,6 +11355,7 @@
   });
 
   // Detect, normalize options and install callbacks for jsonp requests
+  // Обнаруживать, нормализовывать параметры и устанавливать обратные вызовы для запросов jsonp
   jQuery.ajaxPrefilter("json jsonp", function (s, originalSettings, jqXHR) {
     var callbackName,
       overwritten,
@@ -11091,13 +11372,16 @@
             "data");
 
     // Handle iff the expected data type is "jsonp" or we have a parameter to set
+    // Обработайте, если ожидаемый тип данных - "jsonp" или у нас есть параметр для установки
     if (jsonProp || s.dataTypes[0] === "jsonp") {
       // Get callback name, remembering preexisting value associated with it
+      // Получить имя обратного вызова, запомнив ранее существовавшее значение, связанное с ним
       callbackName = s.jsonpCallback = jQuery.isFunction(s.jsonpCallback)
         ? s.jsonpCallback()
         : s.jsonpCallback;
 
       // Insert callback into url or form data
+      // Вставить обратный вызов в URL-адрес или данные формы
       if (jsonProp) {
         s[jsonProp] = s[jsonProp].replace(rjsonp, "$1" + callbackName);
       } else if (s.jsonp !== false) {
@@ -11106,6 +11390,7 @@
       }
 
       // Use data converter to retrieve json after script execution
+      // Используйте конвертер данных для извлечения json после выполнения скрипта
       s.converters["script json"] = function () {
         if (!responseContainer) {
           jQuery.error(callbackName + " was not called");
@@ -11114,35 +11399,44 @@
       };
 
       // Force json dataType
+      // Принудительный тип данных json
       s.dataTypes[0] = "json";
 
       // Install callback
+      // Установить обратный вызов
       overwritten = window[callbackName];
       window[callbackName] = function () {
         responseContainer = arguments;
       };
 
       // Clean-up function (fires after converters)
+      // Функция очистки (срабатывает после срабатывания преобразователей)
       jqXHR.always(function () {
         // If previous value didn't exist - remove it
+        // Если предыдущее значение не существовало - удалите его
         if (overwritten === undefined) {
           jQuery(window).removeProp(callbackName);
 
           // Otherwise restore preexisting value
+          // В противном случае восстановите ранее существовавшее значение
         } else {
           window[callbackName] = overwritten;
         }
 
         // Save back as free
+        // Сохранить обратно как бесплатный
         if (s[callbackName]) {
           // Make sure that re-using the options doesn't screw things around
+          // Убедитесь, что повторное использование опций ничего не испортит
           s.jsonpCallback = originalSettings.jsonpCallback;
 
           // Save the callback name for future use
+          // Сохраните имя обратного вызова для использования в будущем
           oldCallbacks.push(callbackName);
         }
 
         // Call if it was a function and we have a response
+        // Вызовите, если это была функция, и у нас есть ответ
         if (responseContainer && jQuery.isFunction(overwritten)) {
           overwritten(responseContainer[0]);
         }
@@ -11156,9 +11450,13 @@
   });
 
   // Support: Safari 8 only
+  // Поддержка: только Safari 8
   // In Safari 8 documents created via document.implementation.createHTMLDocument
+  // В Safari 8 документы, созданные с помощью document.implementation.createHTMLDocument,
   // collapse sibling forms: the second one becomes a child of the first one.
+  // сворачивают родственные формы: вторая становится дочерней по отношению к первой.
   // Because of that, this security measure has to be disabled in Safari 8.
+  // Из-за этого эта мера безопасности должна быть отключена в Safari 8.
   // https://bugs.webkit.org/show_bug.cgi?id=137337
   support.createHTMLDocument = (function () {
     var body = document.implementation.createHTMLDocument("").body;
@@ -11167,9 +11465,13 @@
   })();
 
   // Argument "data" should be string of html
+  // Аргумент "data" должен быть строкой html
   // context (optional): If specified, the fragment will be created in this context,
+  // контекст (необязательно): Если указано, фрагмент будет создан в этом контексте,
   // defaults to document
+  // по умолчанию используется document
   // keepScripts (optional): If true, will include scripts passed in the html string
+  // сохранить скрипты (необязательно): если значение true, будут включены скрипты, переданные в html-строке
   jQuery.parseHTML = function (data, context, keepScripts) {
     if (typeof data !== "string") {
       return [];
@@ -11183,13 +11485,18 @@
 
     if (!context) {
       // Stop scripts or inline event handlers from being executed immediately
+      // Немедленно остановите выполнение скриптов или встроенных обработчиков событий
       // by using document.implementation
+      // с помощью document.implementation
       if (support.createHTMLDocument) {
         context = document.implementation.createHTMLDocument("");
 
         // Set the base href for the created document
+        // Установите базовый href для созданного документа,
         // so any parsed elements with URLs
+        // чтобы все проанализированные элементы с URL-адресами
         // are based on the document's URL (gh-2965)
+        // основаные на URL документах (gh-2965)
         base = context.createElement("base");
         base.href = document.location.href;
         context.head.appendChild(base);
@@ -11217,6 +11524,7 @@
 
   /**
    * Load a url into a page
+   * Загрузите URL-адрес на страницу
    */
   jQuery.fn.load = function (url, params, callback) {
     var selector,
@@ -11231,47 +11539,61 @@
     }
 
     // If it's a function
+    // Если это функция
     if (jQuery.isFunction(params)) {
       // We assume that it's the callback
+      // Мы предполагаем, что это обратный вызов
       callback = params;
       params = undefined;
 
       // Otherwise, build a param string
+      // В противном случае создайте строку параметров
     } else if (params && typeof params === "object") {
       type = "POST";
     }
 
     // If we have elements to modify, make the request
+    // Если у нас есть элементы для изменения, отправьте запрос
     if (self.length > 0) {
       jQuery
         .ajax({
           url: url,
 
           // If "type" variable is undefined, then "GET" method will be used.
+          // Если переменная "type" не определена, то будет использоваться метод "GET".
           // Make value of this field explicit since
+          // Сделайте значение этого поля явным, поскольку
           // user can override it through ajaxSetup method
+          // пользователь может переопределить его с помощью метода ajaxSetup
           type: type || "GET",
           dataType: "html",
           data: params,
         })
         .done(function (responseText) {
           // Save response for use in complete callback
+          // Сохранить ответ для использования в полном обратном вызове
           response = arguments;
 
           self.html(
             selector
               ? // If a selector was specified, locate the right elements in a dummy div
+                // Если был указан селектор, найдите нужные элементы в фиктивном div,
                 // Exclude scripts to avoid IE 'Permission Denied' errors
+                // исключающем сценарии, чтобы избежать ошибок IE "Отказано в разрешении"
                 jQuery("<div>")
                   .append(jQuery.parseHTML(responseText))
                   .find(selector)
               : // Otherwise use the full result
+                // В противном случае используйте полный результат
                 responseText
           );
 
           // If the request succeeds, this function gets "data", "status", "jqXHR"
+          // Если запрос выполнен успешно, эта функция получает "данные", "статус", "jqXHR",
           // but they are ignored because response was set above.
+          // но они игнорируются, поскольку ответ был задан выше.
           // If it fails, this function gets "jqXHR", "status", "error"
+          // Если это не удается, эта функция получает "jqXHR", "статус", "ошибка"
         })
         .always(
           callback &&
@@ -11290,6 +11612,7 @@
   };
 
   // Attach a bunch of functions for handling common AJAX events
+  // Прикрепите набор функций для обработки распространенных событий AJAX
   jQuery.each(
     [
       "ajaxStart",
@@ -11326,6 +11649,7 @@
         props = {};
 
       // Set position first, in-case top/left are set even on static elem
+      // Сначала установите положение, в случае, если верхнее/левое заданы даже на статическом элементе
       if (position === "static") {
         elem.style.position = "relative";
       }
@@ -11338,7 +11662,9 @@
         (curCSSTop + curCSSLeft).indexOf("auto") > -1;
 
       // Need to be able to calculate position if either
+      // Нужно иметь возможность вычислять положение, если верхнее
       // top or left is auto and position is either absolute or fixed
+      // или левое значение выбрано автоматически, а положение либо абсолютное, либо фиксированное
       if (calculatePosition) {
         curPosition = curElem.position();
         curTop = curPosition.top;
@@ -11350,6 +11676,7 @@
 
       if (jQuery.isFunction(options)) {
         // Use jQuery.extend here to allow modification of coordinates argument (gh-1848)
+        // Используйте jQuery.extend здесь, чтобы разрешить изменение аргумента координат (gh-1848)
         options = options.call(elem, i, jQuery.extend({}, curOffset));
       }
 
@@ -11371,6 +11698,7 @@
   jQuery.fn.extend({
     offset: function (options) {
       // Preserve chaining for setter
+      // Сохранить цепочку для сеттера
       if (arguments.length) {
         return options === undefined
           ? this
@@ -11390,9 +11718,13 @@
       }
 
       // Return zeros for disconnected and hidden (display: none) elements (gh-2310)
+      // Возвращает нули для отключенных и скрытых (отображение: отсутствует) элементов (gh-2310)
       // Support: IE <=11 only
+      // Поддержка: только IE <=11
       // Running getBoundingClientRect on a
+      // Запуск getBoundingClientRect на
       // disconnected node in IE throws an error
+      // отключенном узле в IE выдает ошибку
       if (!elem.getClientRects().length) {
         return { top: 0, left: 0 };
       }
@@ -11420,21 +11752,27 @@
         parentOffset = { top: 0, left: 0 };
 
       // Fixed elements are offset from window (parentOffset = {top:0, left: 0},
+      // Исправленные элементы смещены от окна (parentOffset = {вверху:0, слева: 0},
       // because it is its only offset parent
+      // // потому что это всего лишь смещенный родительский элемент
       if (jQuery.css(elem, "position") === "fixed") {
         // Assume getBoundingClientRect is there when computed position is fixed
+        // Предположим, что getBoundingClientRect существует, когда вычисленная позиция фиксирована
         offset = elem.getBoundingClientRect();
       } else {
         // Get *real* offsetParent
+        // Получить *реальный* offsetParent
         offsetParent = this.offsetParent();
 
         // Get correct offsets
+        // Получить правильные смещения
         offset = this.offset();
         if (!nodeName(offsetParent[0], "html")) {
           parentOffset = offsetParent.offset();
         }
 
         // Add offsetParent borders
+        // Добавить смещенные прозрачные границы
         parentOffset = {
           top:
             parentOffset.top +
@@ -11446,6 +11784,7 @@
       }
 
       // Subtract parent offsets and element margins
+      // Вычесть родительские смещения и поля элемента
       return {
         top:
           offset.top - parentOffset.top - jQuery.css(elem, "marginTop", true),
@@ -11457,15 +11796,23 @@
     },
 
     // This method will return documentElement in the following cases:
+    // Этот метод вернет documentElement в следующих случаях:
     // 1) For the element inside the iframe without offsetParent, this method will return
+    // 1) Для элемента внутри iframe без offsetParent этот метод вернет
     //    documentElement of the parent window
+    //    documentElement родительского окна
     // 2) For the hidden or detached element
+    // 2) Для скрытого или отсоединенного элемента
     // 3) For body or html element, i.e. in case of the html node - it will return itself
+    // 3) Для body или html-элемента, т.е. в случае html-узла - он вернет сам себя
     //
     // but those exceptions were never presented as a real life use-cases
+    // но эти исключения никогда не были представлены как примеры использования в реальной жизни
     // and might be considered as more preferable results.
+    // и могли бы рассматриваться как более предпочтительные результаты.
     //
     // This logic, however, is not guaranteed and can change at any point in the future
+    // Эта логика, однако, не гарантируется и может измениться в любой момент в будущем
     offsetParent: function () {
       return this.map(function () {
         var offsetParent = this.offsetParent;
@@ -11483,6 +11830,7 @@
   });
 
   // Create scrollLeft and scrollTop methods
+  // Создать методы scrollLeft и scrollTop
   jQuery.each(
     { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" },
     function (method, prop) {
@@ -11493,6 +11841,7 @@
           this,
           function (elem, method, val) {
             // Coalesce documents and windows
+            // Объединить документы и окна
             var win;
             if (jQuery.isWindow(elem)) {
               win = elem;
@@ -11522,11 +11871,15 @@
   );
 
   // Support: Safari <=7 - 9.1, Chrome <=37 - 49
+  // Поддержка: Safari <=7 - 9.1, Chrome <=37 - 49
   // Add the top/left cssHooks using jQuery.fn.position
+  // Добавьте верхние/левые cssHooks, используя jQuery.fn.position
   // Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
   // Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
   // getComputedStyle returns percent when specified for top/left/bottom/right;
+  // getComputedStyle возвращает процент, указанный для верхнего/левого/нижнего/правого;
   // rather than make the css module depend on the offset module, just check for it here
+  // вместо того, чтобы заставлять модуль css зависеть от модуля offset, просто проверьте его здесь
   jQuery.each(["top", "left"], function (i, prop) {
     jQuery.cssHooks[prop] = addGetHookIf(
       support.pixelPosition,
@@ -11535,6 +11888,7 @@
           computed = curCSS(elem, prop);
 
           // If curCSS returns percentage, fallback to offset
+          // Если curCSS возвращает процент, возврат к смещению
           return rnumnonpx.test(computed)
             ? jQuery(elem).position()[prop] + "px"
             : computed;
@@ -11544,11 +11898,13 @@
   });
 
   // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
+  // Создать методы innerHeight, innerWidth, height, width, outerHeight и outerWidth
   jQuery.each({ Height: "height", Width: "width" }, function (name, type) {
     jQuery.each(
       { padding: "inner" + name, content: type, "": "outer" + name },
       function (defaultExtra, funcName) {
         // Margin is only for outerHeight, outerWidth
+        // Поле указано только для внешней высоты, внешней ширины
         jQuery.fn[funcName] = function (margin, value) {
           var chainable =
               arguments.length && (defaultExtra || typeof margin !== "boolean"),
@@ -11563,17 +11919,21 @@
 
               if (jQuery.isWindow(elem)) {
                 // $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
+                // $( окно ).Возврат внешней ширины/высоты без учета полос прокрутки (gh-1729)
                 return funcName.indexOf("outer") === 0
                   ? elem["inner" + name]
                   : elem.document.documentElement["client" + name];
               }
 
               // Get document width or height
+              // Получить ширину или высоту документа
               if (elem.nodeType === 9) {
                 doc = elem.documentElement;
 
                 // Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
+                // Либо прокрутка [Ширина/высота], либо смещение [Ширина/высота], либо клиент [Ширина/высота],
                 // whichever is greatest
+                // в зависимости от того, что больше
                 return Math.max(
                   elem.body["scroll" + name],
                   doc["scroll" + name],
@@ -11585,8 +11945,10 @@
 
               return value === undefined
                 ? // Get width or height on the element, requesting but not forcing parseFloat
+                  // Получить ширину или высоту элемента, запрашивая, но не заставляя parseFloat
                   jQuery.css(elem, type, extra)
                 : // Set width or height on the element
+                  // Установите ширину или высоту элемента
                   jQuery.style(elem, type, value, extra);
             },
             type,
@@ -11629,16 +11991,26 @@
   jQuery.nodeName = nodeName;
 
   // Register as a named AMD module, since jQuery can be concatenated with other
+  // Зарегистрируйтесь как именованный модуль AMD, поскольку jQuery может быть объединен с другими
   // files that may use define, but not via a proper concatenation script that
+  // файлы, которые могут использовать define, но не с помощью надлежащего сценария конкатенации, который
   // understands anonymous AMD modules. A named AMD is safest and most robust
+  // понимает анонимные модули AMD. Именованная AMD является самой безопасной и надежной
   // way to register. Lowercase jquery is used because AMD module names are
+  // способ регистрации. jquery в нижнем регистре используется потому, что имена модулей AMD являются
   // derived from file names, and jQuery is normally delivered in a lowercase
+  // производный от имен файлов, и jQuery обычно поставляется в нижнем регистре
   // file name. Do this after creating the global so that if an AMD module wants
+  // имя файла. Сделайте это после создания глобального, чтобы, если модуль AMD захочет
   // to call noConflict to hide this version of jQuery, it will work.
+  // чтобы вызвать noConflict, чтобы скрыть эту версию jQuery, это сработает.
 
   // Note that for maximum portability, libraries that are not jQuery should
+  // Обратите внимание, что для максимальной переносимости библиотеки, которые не являются jQuery, должны
   // declare themselves as anonymous modules, and avoid setting a global if an
+  // объявляют себя анонимными модулями и избегают установки глобального, если
   // AMD loader is present. jQuery is a special case. For more information, see
+  // Присутствует загрузчик AMD. jQuery - это особый случай. Для получения дополнительной информации смотрите
   // https://github.com/jrburke/requirejs/wiki/Updating-existing-libraries#wiki-anon
 
   if (typeof define === "function" && define.amd) {
@@ -11648,8 +12020,10 @@
   }
 
   var // Map over jQuery in case of overwrite
+    // Отображение поверх jQuery в случае перезаписи
     _jQuery = window.jQuery,
     // Map over the $ in case of overwrite
+    // Сопоставьте поверх $ в случае перезаписи
     _$ = window.$;
 
   jQuery.noConflict = function (deep) {
