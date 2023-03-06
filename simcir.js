@@ -728,8 +728,10 @@ simcir.$ = (function () {
         var elm = this[i];
         // apply() ->fn.attr() -> getAttribute(kv)
         // arguments - каким то образом стал массивом: Arguments ['simcir-transform-rotate', callee: (...), Symbol(Symbol.iterator): ƒ]
+        // elm - <g transform="translate(112 0)"></g>
         var ret = func.apply(elm, arguments);
         //  ret = массиву объектов рабочего поля
+        // Например: <svg version="1.1" width="600" height="200" viewBox="0 0 600 200" class="simcir-workspace" style="user-select: none;"><defs></defs></svg>
         if (elm !== ret) {
           if (ret != null && ret.__proto__ == fn) {
             if (newRet == null) {
@@ -777,6 +779,7 @@ simcir.$ = (function () {
 
   // самая короткая по названию функция
   // присваивает объекту __proto__ все функции этого js файла
+  // target может быть любой тэг SVG, например: target = <g></g> тогда typeof target == 'object'
   var $ = function (target) {
     if (typeof target == "function") {
       // ready
@@ -802,7 +805,7 @@ simcir.$ = (function () {
       } else {
         // создаем массив входных и выходных соединений (белые и желтые кружечки)
         var elms = [];
-        // target это строка содержащая тег желтого кружочка
+        // target это строка например: <g></g> содержащая тег желтого кружочка
         // или может содержать целый объект
         elms.push(target);
         // добавляем все функции (а все старые удаляются)
@@ -885,8 +888,8 @@ simcir.$ = (function () {
       drawCircle: drawCircle,
     };
   };
-  // функция возвращает координаты объекта
-  // (но как происходит вызов этой функции мне пока непонятно) надеюсь стереть этот комментарий
+  // функция принимает и возвращает координаты объекта
+  //
   var transform = (function () {
     var attrX = "simcir-transform-x";
     var attrY = "simcir-transform-y";
@@ -898,12 +901,21 @@ simcir.$ = (function () {
     return function ($o, x, y, rotate) {
       if (arguments.length >= 3) {
         var transform = "translate(" + x + " " + y + ")";
+        // поворот если rotate не undefined
         if (rotate) {
           transform += " rotate(" + rotate + ")";
         }
+        // transform = 'translate(96 0)'
+        // each(fn, function (name, func) -> func.apply(elm, arguments) -> attr: () -> setAttribute()
         $o.attr("transform", transform);
+        // attrX = 'simcir-transform-x'; x = 96;
+        // each(fn, function (name, func) -> func.apply(elm, arguments) -> attr: () -> setAttribute()
         $o.attr(attrX, x);
+        // attrY = "simcir-transform-y"; y = 0;
+        // each(fn, function (name, func) -> func.apply(elm, arguments) -> attr: () -> setAttribute()
         $o.attr(attrY, y);
+        // attrRotate = 'simcir-transform-rotate'; rotate = undefined;
+        // each(fn, function (name, func) -> func.apply(elm, arguments) -> attr: () -> setAttribute()
         $o.attr(attrRotate, rotate);
       } else if (arguments.length == 1) {
         return {
@@ -1851,8 +1863,10 @@ simcir.$ = (function () {
     }
   };
 
+  // Создаем вертикальную прокрутку для всех возможных элементов
   var createScrollbar = function () {
     // vertical only.
+    // задаем размеры прокрутки
     var _value = 0;
     var _min = 0;
     var _max = 0;
@@ -1860,10 +1874,16 @@ simcir.$ = (function () {
     var _width = 0;
     var _height = 0;
 
+    // создаем прямоугольник
     var $body = createSVGElement("rect");
+    // создаем повторяющуюся группу
     var $bar = createSVGElement("g")
+      // вкладываем в него прямоугольник
       .append(createSVGElement("rect"))
+      // добавляем класс "simcir-scrollbar-bar"
       .attr("class", "simcir-scrollbar-bar");
+
+    // создаем прокрутку для левого SVG поля
     var $scrollbar = createSVGElement("g")
       .attr("class", "simcir-scrollbar")
       .append($body)
@@ -1882,6 +1902,7 @@ simcir.$ = (function () {
       });
 
     var dragPoint = null;
+    // создаем функцию обработки клика вниз по прокрутке
     var bar_mouseDownHandler = function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -1893,16 +1914,22 @@ simcir.$ = (function () {
       $(document).on("mousemove", bar_mouseMoveHandler);
       $(document).on("mouseup", bar_mouseUpHandler);
     };
+
+    // создаем функцию обработки пролистывая прокрутки в списке элементов
     var bar_mouseMoveHandler = function (event) {
       calc(function (unitSize) {
         setValue((event.pageY - dragPoint.y) / unitSize);
       });
     };
+
+    // создаем функцию обработки клика вверх по прокрутке
     var bar_mouseUpHandler = function (event) {
       $(document).off("mousemove", bar_mouseMoveHandler);
       $(document).off("mouseup", bar_mouseUpHandler);
     };
+
     $bar.on("mousedown", bar_mouseDownHandler);
+
     var body_mouseDownHandler = function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -1916,13 +1943,16 @@ simcir.$ = (function () {
         $scrollbar.trigger("rolldown");
       }
     };
+    // обработка клика мышки по кнопке
     $body.on("mousedown", body_mouseDownHandler);
 
+    // задаем размеры элементу
     var setSize = function (width, height) {
       _width = width;
       _height = height;
       layout();
     };
+
     var layout = function () {
       $body.attr({ x: 0, y: 0, width: _width, height: _height });
 
@@ -1941,6 +1971,7 @@ simcir.$ = (function () {
     var calc = function (f) {
       f(_height / (_max - _min));
     };
+    // получаем значение объекта
     var setValue = function (value) {
       setValues(value, _min, _max, _barSize);
     };
@@ -1959,14 +1990,18 @@ simcir.$ = (function () {
     var getValue = function () {
       return _value;
     };
+
+    // controller() -> $.data(... controller()) -> getData(elm)[kv] -> !getCache(elm).data
     controller($scrollbar, {
       setSize: setSize,
       setValues: setValues,
       getValue: getValue,
     });
+    // return [g.simcir-scrollbar]
     return $scrollbar;
   };
 
+  // Присваивает порядковый номер объекту
   var getUniqueId = (function () {
     var uniqueIdCount = 0;
     return function () {
@@ -2019,26 +2054,55 @@ simcir.$ = (function () {
 
     disableSelection($workspace);
 
+    // создает  <defs> </defs> тег внутри <svg ... > </svg>
+    // SVG позволяет задавать графические объекты для последующего использования. Рекомендуется там, где это возможно, объявлять подобные элементы внутри элемента <defs>
+    // https://developer.mozilla.org/ru/docs/Web/SVG/Element/defs
     var $defs = createSVGElement("defs");
+    // Добавляем блок $defs к рабочей области
     $workspace.append($defs);
 
+    // функцию запускаем немедленно
     !(function () {
       // fill with pin hole pattern.-> заполните узором отверстия для булавок.
+      // присваивает порядковый номер элементу например: 'simcir-id0'
       var patId = getUniqueId();
+      // unit - шаг размер объектов = 16 по умолчанию
       var pitch = unit / 2;
+      // workspaceWidth = 600;  toolboxWidth = 112;
       var w = workspaceWidth - toolboxWidth;
+      // workspaceHeight = 200;
       var h = workspaceHeight;
 
+      // Добавляем список элементов
+      // сначала отрабатывается все что внутри append()
+      // append() каждый раз сначала прыгает в each(fn, function (name, func) {fn[name] = function () {...}}
+      // и только потом в append: function (elms) {
+      // где делаем this.appendChild(elms[i]);
       $defs.append(
+        // <pattern></pattern> Внутри элемента <pattern> вы можете использовать любые другие основные фигуры, ...
+        // Подробнее: https://developer.mozilla.org/ru/docs/Web/SVG/Tutorial/Patterns
         createSVGElement("pattern")
+          // добавляем атрибуты к <pattern></pattern>
           .attr({ id: patId, x: 0, y: 0, width: pitch / w, height: pitch / h })
+          // эта функция отрабатывает после всего, что внутри неё
+          // прыгает в each(fn, function (name, func) {fn[name] = function () {...}}
+          // потом в append: function (elms) {
+          // где делает this.appendChild(elms[i]);
           .append(
+            // <rect></rect> - используется для отрисовки прямоугольников со скруглёнными углами. - тело объекта
+            // https://developer.mozilla.org/ru/docs/Web/SVG/Element/rect
             createSVGElement("rect")
+              // добавляем объекту класс,
+              // но до этого прыгаем в функцию each(fn, function (name, func) { fn[name] = function () { ...}}
+              // а потом еще и в функцию fn = {attr:
+              // и только потом добавляем атрибуты
               .attr("class", "simcir-pin-hole")
+              // this = <rect class="simcir-pin-hole" x="0" y="0" width="1" height="1"></rect>
               .attr({ x: 0, y: 0, width: 1, height: 1 })
           )
       );
 
+      // добавляем элементы объектов patId = 'simcir-id0'
       $workspace.append(
         createSVGElement("rect")
           .attr({ x: toolboxWidth, y: 0, width: w, height: h })
@@ -2046,16 +2110,29 @@ simcir.$ = (function () {
       );
     })();
 
+    // Элемент g используется для группировки других SVG элементов.
     var $toolboxDevicePane = createSVGElement("g");
+    // Прокрутка для всех возможных элементов
     var $scrollbar = createScrollbar();
+    // $scrollbar = [g.simcir-scrollbar] - массив объектов
+    // on() ->  addEventListener() -> getListeners() -> getCache()
     $scrollbar.on("scrollValueChange", function (event) {
       transform($toolboxDevicePane, 0, -controller($scrollbar).getValue());
     });
+    // $scrollbar = [g.simcir-scrollbar] - массив объектов
+    // controller() -> $.data($ui_0, id) -> data() -> getData(elm)[kv] -> getCache(elm).data -> cache[cacheId];
+    // etSize() -> each() -> fn.attr() -> this.setAttribute() -> each () -> func.apply() -> css()
     controller($scrollbar).setSize(barWidth, workspaceHeight);
+    // transform()
     transform($scrollbar, toolboxWidth - barWidth, 0);
+    // создаем панель инструментов
+    // createSVGElement() -> $()
     var $toolboxPane = createSVGElement("g")
+      // добавляем "class", "simcir-toolbox"
+      // each(fn, function (name, func) {...} -> func.apply(elm, arguments) -> attr: () -> setAttribute(kv, arguments[1]);
       .attr("class", "simcir-toolbox")
       .append(
+        // createSVGElement("rect") -> $() -> each() -> func.apply(elm, arguments) -> attr: () -> append() -> appendChild()
         createSVGElement("rect").attr({
           x: 0,
           y: 0,
@@ -2063,8 +2140,11 @@ simcir.$ = (function () {
           height: workspaceHeight,
         })
       )
+      // each(fn,) -> fn[name] ->func.apply(elm, arguments); -> append: () -> appendChild(elms[i])
       .append($toolboxDevicePane)
+      // each(fn,) -> fn[name] ->func.apply(elm, arguments); -> append: () -> appendChild(elms[i]);
       .append($scrollbar)
+      // each(fn,) -> fn[name] ->on() -> addEventListener () -> getListeners(); -> getCache()
       .on("wheel", function (event) {
         event.preventDefault();
         var oe = event.originalEvent || event;
@@ -2075,19 +2155,35 @@ simcir.$ = (function () {
         }
       });
 
+    // создаем панель девайсов
+    // createSVGElement () -> $()
     var $devicePane = createSVGElement("g");
+    // transform() -> $o.attr() -> each () -> func.apply(elm, arguments); -> fn =() { attr:()}
     transform($devicePane, toolboxWidth, 0);
+    // панель соединителя
     var $connectorPane = createSVGElement("g");
+    // временная панель
     var $temporaryPane = createSVGElement("g");
 
+    // enableEvents() -> $o.css() -> each(fn, function () {fn[name] = function () {}} -> func.apply(elm, arguments); -> var fn = {css: function (kv) {}
     enableEvents($connectorPane, false);
+    // enableEvents() -> $o.css() -> each(fn, function () {fn[name] = function () {}} -> func.apply(elm, arguments); -> var fn = {css: function (kv) {}
     enableEvents($temporaryPane, false);
 
+    // data.showToolbox = true
     if (data.showToolbox) {
+      // $toolboxPane = [g.simcir-toolbox]
+      // each(fn, function (name, func) {fn[name] = function (){ }} -> func.apply(elm, arguments); ->  append: function (elms) {} -> this.appendChild(elms[i]);
       $workspace.append($toolboxPane);
     }
+    // $devicePane = [g] - панель устройств
+    // each(fn, function (name, func) {fn[name] = function (){ }} -> func.apply(elm, arguments); ->  append: function (elms) {} -> this.appendChild(elms[i]);
     $workspace.append($devicePane);
+    // $connectorPane = [g] - панель соединителя
+    // each(fn, function (name, func) {fn[name] = function (){ }} -> func.apply(elm, arguments); ->  append: function (elms) {} -> this.appendChild(elms[i]);
     $workspace.append($connectorPane);
+    // $temporaryPane = [g] - временная панель
+    // each(fn, function (name, func) {fn[name] = function (){ }} -> func.apply(elm, arguments); ->  append: function (elms) {} -> this.appendChild(elms[i]);
     $workspace.append($temporaryPane);
 
     var addDevice = function ($dev) {
@@ -2137,9 +2233,11 @@ simcir.$ = (function () {
       });
     };
 
+    // загрузить набор инструментов
     var loadToolbox = function (data) {
       var vgap = 8;
       var y = vgap;
+      // создаем панель инструментов
       $.each(data.toolbox, function (i, deviceDef) {
         var $dev = createDevice(deviceDef);
         $toolboxDevicePane.append($dev);
@@ -2150,6 +2248,7 @@ simcir.$ = (function () {
       controller($scrollbar).setValues(0, 0, y, workspaceHeight);
     };
 
+    // Получить данные
     var getData = function () {
       // renumber all id
       var devIdCount = 0;
@@ -2237,6 +2336,7 @@ simcir.$ = (function () {
         connectors: connectors,
       };
     };
+    // Получить текст
     var getText = function () {
       var data = getData();
 
@@ -2395,11 +2495,14 @@ simcir.$ = (function () {
       };
     };
 
+    // выбранные устройства
     var $selectedDevices = [];
+    // добавить выбранный
     var addSelected = function ($dev) {
       controller($dev).setSelected(true);
       $selectedDevices.push($dev);
     };
+    // отмените выбор всех
     var deselectAll = function () {
       $devicePane.children(".simcir-device").each(function () {
         controller($(this)).setSelected(false);
@@ -2504,6 +2607,7 @@ simcir.$ = (function () {
       };
     };
 
+    // Манипулятор наведения курсора мыши
     var mouseDownHandler = function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -2527,12 +2631,14 @@ simcir.$ = (function () {
       $(document).on("mouseup", mouseUpHandler);
     };
 
+    // Манипулятор для перемещения мыши
     var mouseMoveHandler = function (event) {
       if (dragMoveHandler != null) {
         dragMoveHandler(event);
       }
     };
 
+    // Манипулятор мышью
     var mouseUpHandler = function (event) {
       if (dragCompleteHandler != null) {
         dragCompleteHandler(event);
@@ -2547,12 +2653,32 @@ simcir.$ = (function () {
       $(document).off("mouseup", mouseUpHandler);
     };
 
+    // Манипулятор наведения курсора мыши
+    //  each(fn, function (name, func) {fn[name] = function () {...}}
+    //  func.apply(elm, arguments); -> var fn = {on: function (type, listener) {...}}
+    // this.addEventListener(types[i], listener);
+    // addEventListener(this, types[i], listener, true);
+    // getListeners(elm, type);
+    // getCache()
+    // addEventListener() -> newListeners.push(listener);
+    // getCache(elm).listenerMap[type] = newListeners;
+    // getCache(elm)
     $workspace.on("mousedown", mouseDownHandler);
 
     //-------------------------------------------
-    //
-
+    // загрузить набор инструментов
+    // data - структура всех объектов панели инструментов
+    // loadToolbox () ->  $.each(data.toolbox, function (i, deviceDef)
+    // each() ->
+    // var $dev = createDevice(deviceDef);
+    // createDevice () -> var $dev = createSVGElement("g");
+    // createSVGElement () -> $() -> elms.push(target);
+    // $dev.attr("class", "simcir-device"); ->  each(fn, function (name, func) { fn[name] = function () {...}}
+    // var ret = func.apply(elm, arguments); ->  attr: ()
+    // this.setAttribute(kv, arguments[1]);
+    // дошел по отладке до сюда **************************
     loadToolbox(data);
+    //**************  до этого места еще не дошел.
     $.each(buildCircuit(data, false, scope), function (i, $dev) {
       addDevice($dev);
     });
